@@ -23,6 +23,10 @@ module ReleaseLogs
 
         helper :release_logs
       end
+
+      ApplicationHelper.class_eval do
+        include ReleaseLogsHelper
+      end
     end
   end
 end

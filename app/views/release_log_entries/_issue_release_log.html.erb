@@ -1,0 +1,10 @@
+<% release_log = release_log_entry.release_log %>
+<div>
+    <strong><%= issue_release_verb(release_log) %></strong>
+    on
+    <%= format_time release_log.released_at %>
+    <%= issue_failed_release_info(release_log).html_safe %> -
+    <strong>
+        <%= link_to release_log.identifier, release_log_path(release_log, :project_id => project.identifier), :target => '_blank' %>
+    </strong>
+</div>

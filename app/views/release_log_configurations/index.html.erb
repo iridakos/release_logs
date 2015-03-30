@@ -1,0 +1,56 @@
+<h2><%= release_logs_label_for :configurations %></h2>
+<div class="wiki"><%= release_logs_label_for :configurations_index_subtitle %></div>
+
+<div class="splitcontentleft">
+    <% unless @release_log_configurations.empty? %>
+        <table class="list">
+            <thead>
+            <tr>
+                <th><%= release_logs_label_for(:project) %></th>
+                <th><%= release_logs_label_for(:enabled) %></th>
+                <th><%= release_logs_label_for(:email_notification_recipients) %></th>
+                <th><%= release_logs_label_for(:queue) %></th>
+                <th><%= release_logs_label_for(:actions) %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @release_log_configurations.each_with_index do |release_log_configuration, index| %>
+                <tr class="<%= index.odd? ? 'odd' : 'even' %>">
+                    <td>
+                        <%= link_to release_log_configuration.project.name, edit_release_log_configuration_path(release_log_configuration) %>
+                    </td>
+
+                    <td>
+                        <% if release_log_configuration.enabled %>
+                            <%= image_tag('true.png') %>
+                        <% end %>
+                    </td>
+
+                    <td>
+                        <%= release_log_configuration.email_notification_recipients.truncate(60) %>
+                    </td>
+
+                    <td>
+                        <%= release_log_configuration.release_log_queue.name if release_log_configuration.release_log_queue.present? %>
+                    </td>
+
+                    <td>
+                        <%= link_to image_tag('edit.png'), edit_release_log_configuration_path(release_log_configuration) %>
+                        <%= link_to image_tag('delete.png'), release_log_configuration_path(release_log_configuration),
+                                    :method => :delete,
+                                    :confirm => release_logs_label_for(:confirm_configuration_delete, :project => release_log_configuration.project.name) %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    <% end %>
+
+    <br />
+
+    <div class="wiki splitcontentleft">
+        <%= link_to new_release_log_configuration_path, :class => 'icon icon-add' do %>
+            <%= release_logs_label_for(:create) %>
+        <% end %>
+    </div>
+</div>

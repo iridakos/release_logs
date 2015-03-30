@@ -1,0 +1,11 @@
+<tr>
+    <td class="issue-column">
+        <% if release_log_entry.issue.present? %>
+            <h4><%= link_to "##{release_log_entry.issue.id}", issue_path(release_log_entry.issue), :target => '_blank' %></h4>
+        <% end %>
+    </td>
+
+    <td class="justified note-column">
+        <div><%= textilizable release_log_entry, :note, :attachments => release_log.attachments %></div>
+    </td>
+</tr>

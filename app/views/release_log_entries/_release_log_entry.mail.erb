@@ -1,0 +1,11 @@
+<tr>
+    <td style="width: 200px; padding: 5px; vertical-align: top; border: 1px solid #d7d7d7;">
+        <% if release_log_entry.issue.present? %>
+            <h4><%= link_to "##{release_log_entry.issue.id}", issue_url(release_log_entry.issue), :target => '_blank' %></h4>
+        <% end %>
+    </td>
+
+    <td style="text-align: justify; vertical-align: top; border: 1px solid #d7d7d7; padding: 5px;">
+        <div><%= release_log_textilizable release_log_entry, :note, @release_log.attachments %></div>
+    </td>
+</tr>

@@ -1,0 +1,105 @@
+<%
+   # Locals
+   #    :mode [:project, :all]
+
+   can_manage = User.current.allowed_to?(:manage_project_release_logs, @project) if mode == :project
+
+   all_mode = mode == :all
+%>
+
+<table class="list release-log-list">
+    <tbody>
+
+    <% release_logs.group_by(&:title).each do |title, logs| %>
+        <tr>
+            <td colspan="7" class="release-log-title">
+                <%= title %>
+            </td>
+        </tr>
+
+        <tr>
+            <th><%= release_logs_label_for(:id) %></th>
+            <% if all_mode %>
+                <th><%= release_logs_label_for(:project) %></th>
+            <% end %>
+            <th><%= release_logs_label_for(:status) %></th>
+            <th><%= release_logs_label_for(:description) %></th>
+            <th><%= release_logs_label_for(:user_information) %></th>
+            <th><%= release_logs_label_for(:release_date) %></th>
+            <% if all_mode || can_manage %>
+                <th><%= release_logs_label_for(:actions) %></th>
+            <% end %>
+        </tr>
+
+        <% logs.each do |release_log| %>
+            <%
+               can_manage ||= User.current.allowed_to?(:manage_project_release_logs, release_log.project)
+            %>
+
+            <tr>
+                <td class="release-log-id">
+                    <strong><%= link_to release_log.identifier, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
+                </td>
+
+                <% if all_mode %>
+                    <td class="release-log-project">
+                        <%= link_to release_log.project.name, project_path(release_log.project) %>
+                    </td>
+                <% end %>
+
+                <% status = release_log.status %>
+                <td class="release-log-status <%= status %>">
+                    <i class="icon icon-status-<%= status %>"></i>
+                    <strong><%= release_log_status release_log %></strong>
+                </td>
+
+                <td class="release-log-column-description">
+                    <div class="release-log-column-preview">
+                        <%= textilizable release_log, :description, :attachments => release_log.attachments %>
+                    </div>
+                </td>
+
+                <td class="release-log-user-information">
+                    <div>
+                        <%
+                           if release_log.draft?
+                             action_user = release_log.user
+                             action_verb = release_logs_label_for(:created_by, :creator => link_to(action_user.name, user_path(action_user)))
+                           else
+                             action_user = release_log.publisher
+                             action_verb = release_logs_label_for(:published_by, :publisher => link_to(action_user.name, user_path(action_user)))
+                           end
+                        %>
+                        <%= action_verb.html_safe %>
+                    </div>
+
+                    <% if release_log.cancelled_by.present? %>
+                        <div>
+                            <%= release_logs_label_for(:cancelled_by, :canceller => link_to(release_log.canceller.name, user_path(release_log.canceller))).html_safe %>
+                        </div>
+                    <% end %>
+
+                    <% if release_log.rolled_back_by.present? %>
+                        <div>
+                            <%= release_logs_label_for(:rolled_back_by, :rollbacker => link_to(release_log.rollbacker.name, user_path(release_log.rollbacker))).html_safe %>
+                        </div>
+                    <% end %>
+                </td>
+
+                <td>
+                    <%= format_time release_log.released_at %>
+                </td>
+
+                <% if can_manage %>
+                    <td>
+                        <%= link_to(image_tag('edit.png'), edit_release_log_path(release_log, :project_id => release_log.project.identifier)) unless release_log.published? || release_log.rolled_back? || release_log.cancelled? %>
+                        <%= link_to image_tag('delete.png'), destroy_release_log_path(release_log, :project_id => release_log.project.identifier), :method => :delete, :confirm => release_logs_label_for(:confirm_release_log_delete) %>
+                    </td>
+                <% end %>
+            </tr>
+        <% end %>
+    <% end %>
+    </tbody>
+</table>
+
+<p class="pagination"><%= pagination_links_full @release_log_pages, @release_log_count %></p>

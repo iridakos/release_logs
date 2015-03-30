@@ -1,0 +1,228 @@
+# English strings go here for Rails i18n
+en:
+  field_email_notification_recipients: "Email notification recipients"
+  field_enabled: "Enabled"
+  field_send_email_notification: "Send email notification"
+  field_release_log_queue: "Log queue"
+  field_title_template: "Title template"
+  field_released_at: "Release date"
+  field_rollback_reason: "Rollback reason"
+  field_cancellation_reason: "Cancellation reason"
+  field_release_log_release_log_entries: "Release log entries"
+  field_release_log_entry_categories: "Release log entry categories"
+  field_release_log_entry_category: "Release log category"
+  field_release_log_entry_note: "Note"
+  field_query_term: "Term"
+  field_query_term_scope: "Term in"
+  field_release_log_status: "Release log status"
+  field_temporal_type: "Action"
+  field_temporal_from: "From date"
+  field_temporal_to: "To date"
+  field_query_project_and_subprojects: "Include sub-projects"
+  field_query_project: "Project"
+  field_group_by_issue_type_true: "By issue type"
+  field_group_by_issue_type_false: "By categories"
+
+  release_logs_label_everywhere: "Everywhere"
+  release_logs_label_query_term_in_issue: "Issue title or description"
+  release_logs_label_query_term_release_log_title: "Release log title"
+  release_logs_label_query_term_in_release_log_description: "Release log description"
+  release_logs_label_query_term_in_release_log_notes: "Release log entry notes"
+
+  release_logs_label_draft: "Draft"
+  release_logs_label_released: "Released"
+  release_logs_label_cancelled: "Cancelled"
+  release_logs_label_rolled_back: "Rolled back"
+  release_logs_label_pending_release: "Pending release"
+
+  release_logs_label_temporal_released: "Released"
+  release_logs_label_temporal_rolled_back: "Rolled back"
+  release_logs_label_temporal_cancelled: "Cancelled"
+
+  release_logs_label_all: "All"
+  release_logs_label_any: "Any"
+
+  release_logs_label_release_log: "Release log"
+  release_logs_label_release_logs: "Release logs"
+  release_logs_label_search_release_logs: "Search release logs"
+  release_logs_label_search: "Search"
+
+  release_logs_label_configuration_created: "The release log notification for project %{project} was created successfully."
+  release_logs_label_configuration_updated: "The release log notification for project %{project} was updated successfully."
+  release_logs_label_configuration_destroyed: "The release log notification for project %{project} was deleted successfully."
+  release_logs_label_queue_created: "Release log queue %{queue_name} was created successfully."
+  release_logs_label_queue_updated: "Release log queue %{queue_name} was updated successfully."
+  release_logs_label_queue_deleted: "Release log queue %{queue_name} was deleted successfully."
+
+  release_logs_label_release_log_created: "You successfully created a release log with title '%{title}' for project %{project}"
+  release_logs_label_release_log_published: "You successfully published a release log with title '%{title}' for project %{project}"
+  release_logs_label_release_log_updated: "You successfully updated the release log with title '%{title}' for project %{project}"
+  release_logs_label_release_log_deleted: "Release log for project %{project} was successfully deleted."
+
+  release_logs_label_notification_failed: "Failed to send notification. Please try again."
+
+  release_logs_label_notification_sent: "Notification was successfully sent."
+
+  release_logs_label_group_release_logs: "Release log entry grouping"
+  release_logs_label_release_log_entry_categories: "Entry categories"
+  release_logs_label_miscellaneous: "Miscellaneous"
+
+  release_logs_label_successful_rollback: "You successfully rolled back the release log with title '%{title}'."
+  release_logs_label_successful_cancellation: "You successfully cancelled the release log with title '%{title}'."
+
+  release_logs_label_no_configuration: "No release log configuration found for '%{project}'."
+  release_logs_label_disabled_configuration: "Release logs are currently disabled for '%{project}'."
+
+  release_logs_label_query: "Query"
+  release_logs_label_action: "Release action"
+  release_logs_label_project_scope: "Project scope"
+  release_logs_label_no_results_found: "No release logs found for your query."
+
+  release_logs_label_release_log_status_cancelled: "Cancelled"
+  release_logs_label_release_log_status_rolled_back: "Rolled back"
+  release_logs_label_release_log_status_draft: "Draft"
+  release_logs_label_release_log_status_released: "Released"
+  release_logs_label_release_log_status_pending_release: "Pending release"
+  release_logs_label_release_log_status_published: "Published"
+
+  release_logs_label_will_be_released: "will be released"
+  release_logs_label_was_released: "was released"
+  release_logs_label_was_to_be_released: "was to be released"
+
+  release_logs_label_issue_rollback_failed_release: "but the release was <strong>rolled back</strong>"
+  release_logs_label_issue_cancel_failed_release: "but the release was <strong>cancelled</strong>"
+
+  release_logs_label_edit_configuration: "Edit release log configuration for project %{project}"
+  release_logs_label_new_configuration: "New Release Log Configuration"
+  release_logs_label_new_release_log: "New Release Log"
+  release_logs_label_configurations: "Release Log Configurations"
+  release_logs_label_configurations_index_subtitle: "Manage the release log configurations for your projects."
+
+  release_logs_label_properties: "Properties"
+  release_logs_label_release_plan: "Release plan"
+  release_logs_label_plan_publish: "Release takes place upon publish"
+  release_logs_label_plan_future: "Release takes place at"
+  release_logs_label_attachments: "Attachments"
+  release_logs_label_time: "Time"
+  release_logs_label_files: "Files"
+  release_logs_label_issue: "Issue"
+  release_logs_label_name: "Name"
+  release_logs_label_note: "Note"
+  release_logs_label_description: "Description"
+  release_logs_label_project: "Project"
+  release_logs_label_enabled: "Enabled"
+  release_logs_label_email_notification_recipients: "Email notification recipients"
+  release_logs_label_queue: "Release log queue"
+  release_logs_label_actions: "Actions"
+  release_logs_label_cancel: "Cancel"
+  release_logs_label_title_template: "Title template"
+  release_logs_label_id: "Id"
+  release_logs_label_status: "Status"
+  release_logs_label_user_information: "User information"
+  release_logs_label_release_date: "Release date"
+  release_logs_label_created_at: "Created at"
+  release_logs_label_rolled_back_at: "Rolled back at"
+  release_logs_label_cancelled_at: "Cancelled at"
+  release_logs_label_published_at: "Published at"
+  release_logs_label_type: "Type"
+  release_logs_label_subject: "Subject"
+  release_logs_label_sent_at: "Sent at"
+
+  release_logs_label_send_publish: "Send publish notification"
+  release_logs_label_send_success: "Send successful notification"
+  release_logs_label_send_rollback: "Send rollback notification"
+  release_logs_label_send_cancel: "Send cancellation notification"
+  release_logs_label_notifications: "Release log notifications"
+  release_logs_label_no_notifications_sent: "No notifications have been sent for this release log."
+
+  release_logs_label_release_cancellation_notification: "Release cancellation notification"
+  release_logs_label_release_publish_notification: "New release notification"
+  release_logs_label_release_publish_notification: "Release rollback notification"
+  release_logs_label_release_success_notification: "Successful release notification"
+  release_logs_label_created_by: "Created by %{creator}"
+  release_logs_label_published_by: "Published by %{publisher}"
+  release_logs_label_cancelled_by: "Cancelled by %{canceller}"
+  release_logs_label_rolled_back_by: "Rolled back by %{rollbacker}"
+
+  release_logs_label_confirm_configuration_delete: "Are your sure you want to delete release log configuration for project %{project}?"
+  release_logs_label_confirm_release_log_delete: "Are your sure you want to delete this release log?"
+  release_logs_label_create: "Create new"
+  release_logs_label_edit: "Edit"
+  release_logs_label_clone: "Clone"
+
+  release_logs_label_date_on: "on %{date}"
+  release_logs_label_shortly: "shortly"
+
+  release_logs_label_release_cancellation_message: "The release <strong>%{release_identifier}</strong> of project <strong>%{project_name}</strong> was cancelled at <strong>%{date}</strong> by <strong>%{user}</strong>"
+  release_logs_label_release_rollback_message: "The release <strong>%{release_identifier}</strong> of project <strong>%{project_name}</strong> was rolled back at <strong>%{date}</strong> by <strong>%{user}</strong>"
+  release_logs_label_release_publish_message: "A new release (<strong>%{release_identifier}</strong>) for <strong>%{project_name}<strong> will take place <strong>%{date}</strong>."
+  release_logs_label_release_success_message: "The release <strong>%{release_identifier}</strong> of project <strong>%{project_name}</strong> was completed successfully! "
+
+  release_logs_label_edit_queue: "Edit Release Log Queue %{queue}"
+  release_logs_label_edit_release_log: "Edit Release Log %{release_identifier}"
+  release_logs_label_index_queue: "Release log queues"
+  release_logs_label_index_queue_subtitle: "Manage your release log queues."
+  release_logs_label_confirm_queue_delete: "Are your sure you want to delete the release log queue '%{queue}'?"
+  release_logs_label_new_queue: "New Release Log Queue"
+
+  release_logs_label_rollback_release: "Rollback release"
+  release_logs_label_cancel_release: "Cancel release"
+
+  release_logs_label_preview: "Preview"
+  release_logs_label_preview_notification: "Preview notification"
+  release_logs_label_add_new: "Add new"
+  release_logs_label_save: "Save"
+  release_logs_label_close: "Close"
+  release_logs_label_save_publish: "Save & Publish"
+
+  release_logs_label_warning: "Release Logs - Warning"
+  release_logs_label_admin_warning: "Please contact your Redmine administrator."
+
+  release_logs_label_no_project_log_results: "No Release Logs found for %{project_name}"
+  release_logs_label_no_release_logs_results: "No Release Logs found."
+
+  # Help text
+  release_logs_help_configuration_recipients: "Add here a comma separated list of email addresses that will receive release logs for this project."
+  release_logs_help_queue_title_template: "In your title template you may use the following variables:<br /><ul><li>{{year}}: will automatically be replaced by the year value of the release date, ex: 2015</li><li>{{year_short}}: will automatically be replaced by the short year value of the release date, ex: 15</li><li>{{month}}: will automatically be replaced by the month number value of the release date, ex: 03</li><li>{{month_short_name}}: will automatically be replaced by the short month name value of the release date, ex: Feb</li><li>{{month_name}}: will automatically be replaced by the month name value of the release date, ex: February</li><li>{{day}}: will automatically be replaced by the day value of the release date, ex: 23</li><li>{{day_short_name}}: will automatically be replaced by the day short name value of the release date, ex: Mon</li><li>{{day_name}}: will automatically be replaced by the day name value of the release date, ex: Monday</li><li>{{week}}: will automatically be replaced by the week of year value of the release date, ex: 14</li><li>{{project_name}}: will automatically be replaced by the project that releases, ex: Redmine</li></ul><br />For example, using a title template '<strong>Y{{short_year}}W{{week}}</strong>', for a release that would take place on January 10th, 2015, the release log's title would automatically be generated as '<strong>Y15W01</strong>'"
+
+  activemodel:
+    attributes:
+      "release_logs/searches/release_log_query":
+        query_project: "Project"
+        temporal_type: "Release log action"
+        temporal_from: "From date"
+        temporal_to: "To date"
+    errors:
+      models:
+        "release_logs/searches/release_log_query":
+          attributes:
+            temporal_from:
+              blank: "can't be blank (unless you fill in the 'To date' field)"
+            temporal_to:
+              blank: "can't be blank (unless you fill in the 'From date' field)"
+  activerecord:
+    errors:
+      models:
+        release_log:
+          unique_issues: "Issues of entries must be unique"
+    models:
+      release_log_entry:
+        one: 'Release log entry'
+        other: 'Release log entries'
+
+  errors:
+    messages:
+      release_log_invalid_issue_id: "id is invalid"
+      release_log_project_invalid_issue: "doesn't belong to the project's hierarchy."
+      association_count_less_than_or_equal_to:
+        one: "count must be less than 1"
+        other: "count must be less than or equal to %{count}"
+      association_count_greater_than_or_equal_to:
+        one: "can't be empty"
+        other: "count must be greater than or equal to %{count}"
+      association_count_invalid:
+        one: "count is invalid (must be equal to 1)"
+        other: "count is invalid (must be equal to %{count})"
+
+
+

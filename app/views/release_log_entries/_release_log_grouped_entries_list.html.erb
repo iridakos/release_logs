@@ -1,0 +1,28 @@
+<table class="list release-log-list">
+    <%
+       group_by_issue_type = !release_log.project.queue_release_log_enabled? || release_log.project.release_log_configuration.release_log_queue.group_by_issue_type
+       group_by_title = group_by_issue_type ? :name : :title
+       groups = release_log_entries.group_by do |entry|
+          group_by_issue_type ? entry.issue.try(:tracker) : entry.release_log_entry_category
+        end
+    %>
+    <% groups.each do |category, entries| %>
+        <tbody>
+        <tr>
+            <td colspan="2" class="category-title">
+                <%=
+                    category_title = category.try(group_by_title)
+                    (category_title || release_logs_label_for(:miscellaneous)).pluralize
+                %>
+            </td>
+        </tr>
+        <tr>
+            <th><%= release_logs_label_for(:issue) %></th>
+            <th><%= release_logs_label_for(:note) %></th>
+        </tr>
+        <% entries.each do |release_log_entry| %>
+            <%= render :partial => 'release_log_entries/release_log_entry', :locals => {:release_log_entry => release_log_entry, :release_log => release_log} %>
+        <% end %>
+        </tbody>
+    <% end %>
+</table>

@@ -1,0 +1,198 @@
+<% content_for :header_tags do %>
+    <%= javascript_include_tag 'release-logs', :plugin => 'release_logs' %>
+<% end %>
+
+<%
+   can_manage = User.current.allowed_to?(:manage_project_release_logs, @project)
+%>
+
+<h2><%= @release_log.identifier %> - <%= @release_log.status.titleize %></h2>
+
+<div class="details">
+    <% if can_manage %>
+        <div class="contextual">
+            <%= link_to(release_logs_label_for(:edit), edit_release_log_path(@release_log, :project_id => @release_log.project.identifier), :class => 'icon icon-edit') unless @release_log.published? || @release_log.rolled_back? || @release_log.cancelled? %>
+
+            <%= link_to(release_logs_label_for(:clone), clone_release_log_path(@release_log, :project_id => @release_log.project.identifier), :class => 'icon icon-copy') %>
+
+            <% if @release_log.released? && !@release_log.rolled_back? && !@release_log.cancelled? %>
+                <a href="#" class="release-action-link icon icon-rollback" data-target="rollback">
+                    <%= release_logs_label_for(:rollback_release) %>
+                </a>
+            <% end %>
+
+            <% if (@release_log.pending_release? || @release_log.released?) && !@release_log.rolled_back? && !@release_log.cancelled? %>
+                <a href="#" class="release-action-link icon icon-cancel-release" data-target="cancel">
+                    <%= release_logs_label_for(:cancel_release) %>
+                </a>
+            <% end %>
+        </div>
+    <% end %>
+
+    <h3><%= release_logs_label_for(:description) %></h3>
+    <div>
+        <%= textilizable @release_log, :description, :attachments => @release_log.attachments %>
+    </div>
+
+    <hr />
+
+    <table class="attributes">
+        <tbody>
+            <tr>
+                <th><%= release_logs_label_for(:status) %></th>
+                <td><strong><%= release_log_status @release_log %></strong></td>
+                <th><%= release_logs_label_for(:release_date) %></th>
+                <td><strong><%= format_time @release_log.released_at %></strong></td>
+            </tr>
+
+            <tr>
+                <th><%= release_logs_label_for(:created_by, :creator => '') %></th>
+                <td><%= @release_log.user.name %></td>
+                <th><%= release_logs_label_for(:created_at) %></th>
+                <td><%= format_time @release_log.created_at %></td>
+            </tr>
+
+            <tr>
+                <th><%= release_logs_label_for(:published_by, :publisher => '') %></th>
+                <td><%= @release_log.published? ? @release_log.publisher.name : '-' %></td>
+                <th><%= release_logs_label_for(:published_at) %></th>
+                <td><%= @release_log.published? ? format_time(@release_log.published_at): '-' %></td>
+            </tr>
+
+            <tr>
+                <th><%= release_logs_label_for(:cancelled_by, :canceller => '') %></th>
+                <td><%= @release_log.cancelled? ? @release_log.canceller.name : '-' %></td>
+                <th><%= release_logs_label_for(:cancelled_at) %></th>
+                <td><%= @release_log.cancelled? ? format_time(@release_log.cancelled_at): '-' %></td>
+            </tr>
+
+            <tr>
+                <th><%= release_logs_label_for(:rolled_back_by, :rollbacker => '') %></th>
+                <td><%= @release_log.rolled_back? ? @release_log.rollbacker.name : '-' %></td>
+                <th><%= release_logs_label_for(:rolled_back_at) %></th>
+                <td><%= @release_log.rolled_back? ? format_time(@release_log.rolled_back_at) : '-' %></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <% if @release_log.rolled_back? %>
+        <hr />
+        <h3><%= l(:field_rollback_reason) %></h3>
+
+        <%= textilizable @release_log, :rollback_reason, :attachments => @release_log.attachments %>
+    <% end %>
+
+    <% if @release_log.cancelled? %>
+        <hr />
+        <h3><%= l(:field_cancellation_reason) %></h3>
+
+        <%= textilizable @release_log, :cancellation_reason, :attachments => @release_log.attachments %>
+    <% end %>
+
+    <hr />
+
+    <h3><%= release_logs_label_for(:attachments) %></h3>
+    <%= link_to_attachments @release_log, :thumbnails => true %>
+</div>
+
+<h3><%= l(:field_release_log_release_log_entries) %></h3>
+<%= render :partial => 'release_log_entries/release_log_grouped_entries_list', :locals => { :release_log_entries => @release_log.release_log_entries, :release_log => @release_log } %>
+<br />
+
+<div class="content">
+    <% if can_manage %>
+        <div class="contextual">
+            <% if  @release_log.published? && !@release_log.rolled_back? && !@release_log.cancelled? %>
+                <%= link_to send_release_log_notification_path(@release_log, :type => :publish, :project_id => @project.identifier),
+                            :class => 'icon icon-notification-publish',
+                            :method => :put do %>
+                    <%= release_logs_label_for(:send_publish) %>
+                <% end %>
+            <% end %>
+
+            <% if  @release_log.published? && !@release_log.rolled_back? && !@release_log.cancelled? %>
+                <%= link_to send_release_log_notification_path(@release_log,
+                                                               :type => :successful_release,
+                                                               :project_id => @project.identifier),
+                            :class => 'icon icon-notification-success',
+                            :method => :put do %>
+                    <%= release_logs_label_for(:send_success) %>
+                <% end %>
+            <% end %>
+
+            <% if  @release_log.rolled_back? %>
+                <%= link_to send_release_log_notification_path(@release_log, :type => :rollback, :project_id => @project.identifier),
+                            :class => 'icon icon-notification-rollback',
+                            :method => :put do %>
+                    <%= release_logs_label_for(:send_rollback) %>
+                <% end %>
+            <% end %>
+
+            <% if @release_log.cancelled? %>
+                <%= link_to send_release_log_notification_path(@release_log, :type => :cancel, :project_id => @project.identifier),
+                            :class => 'icon icon-notification-cancel',
+                            :method => :put do %>
+                    <%= release_logs_label_for(:send_cancel) %>
+                <% end %>
+            <% end %>
+        </div>
+    <% end %>
+
+    <h3><%= release_logs_label_for(:notifications) %></h3>
+
+    <% if @release_log.release_log_notifications.present? %>
+        <table class="list">
+            <thead>
+            <tr>
+                <th><%= release_logs_label_for(:type) %></th>
+                <th><%= release_logs_label_for(:subject) %></th>
+                <% if @project.queue_release_log_enabled? %>
+                    <th><%= release_logs_label_for(:queue) %></th>
+                <% end %>
+                <th><%= release_logs_label_for(:sent_at) %></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% @release_log.release_log_notifications.each_with_index do |release_log_notification| %>
+                <tr>
+                    <td>
+                        <strong><%= release_log_notification.notification_type.titleize %> notification</strong>
+                    </td>
+
+                    <td>
+                        <%= release_log_notification.title %>
+                    </td>
+
+                    <% if @project.queue_release_log_enabled? %>
+                        <td>
+                            <%= release_log_notification.release_log_queue.name %>
+                        </td>
+                    <% end %>
+
+                    <td>
+                        <%= format_time release_log_notification.sent_at %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    <% else %>
+        <strong><%= release_logs_label_for(:no_notifications_sent) %></strong>
+    <% end %>
+
+</div>
+
+<div class="release-log-action-container" id="release_log_rollback_action_container" style="display: <%= @show_rollback_form || @show_cancellation_form ? 'block' : 'none' %>">
+    <%= render :partial => 'action_form', :release_log => @release_log %>
+</div>
+
+<div id="release_preview_log_container" style="display: none">
+    <div id="preview">
+        <h1><%= release_logs_label_for(:preview) %> <a href="#" class="release-log-close-preview icon icon-false">Close</a></h1>
+
+        <div id="preview_content">
+
+        </div>
+    </div>
+</div>

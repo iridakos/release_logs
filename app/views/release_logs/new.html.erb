@@ -1,0 +1,2 @@
+<h2><%= @project.name %> - <%= release_logs_label_for(:new_release_log) %></h2>
+<%= render :partial => 'form', :locals => { :release_log => @release_log } %>

@@ -1,0 +1,20 @@
+<%
+   can_manage = User.current.allowed_to?(:manage_project_release_logs, @project)
+%>
+
+<h2 class="release-log-header">
+    <%= "#{@project.name} - " if @project.present? %> <%= release_logs_label_for(:release_logs) %>
+    <% if can_manage %>
+        <%= link_to new_release_log_path(:project_id => @project.present? ? @project.identifier : nil), :class => 'release-log-action icon icon-add' do %>
+            <%= release_logs_label_for(:create)%>
+        <% end %>
+    <% end %>
+</h2>
+
+<% if @release_logs.present? %>
+    <%= render :partial => 'release_logs/release_log_list', :locals => { :mode => :project, :release_logs => @release_logs } %>
+<% else %>
+    <div class="wiki">
+        <strong><%= release_logs_label_for(:no_project_log_results, :project_name => @project.name) %></strong>
+    </div>
+<% end %>

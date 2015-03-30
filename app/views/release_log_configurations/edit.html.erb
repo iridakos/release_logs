@@ -1,0 +1,5 @@
+<h2>
+    <%= release_logs_label_for(:edit_configuration, :project => @release_log_configuration.project.name) %>
+</h2>
+
+<%= render :partial => 'form', :locals => { :release_log_configuration => @release_log_configuration } %>

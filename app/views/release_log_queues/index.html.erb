@@ -1,0 +1,43 @@
+<h2><%= release_logs_label_for(:index_queue) %></h2>
+
+<div class="wiki"><%= release_logs_label_for(:index_queue_subtitle) %></div>
+
+<% unless @release_log_queues.empty? %>
+    <table class="list">
+        <thead>
+        <tr>
+            <th><%= release_logs_label_for(:name) %></th>
+            <th><%= release_logs_label_for(:title_template) %></th>
+            <th><%= release_logs_label_for(:actions) %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @release_log_queues.each_with_index do |release_log_queue, index| %>
+            <tr class="<%= index.odd? ? 'odd' : 'even' %>">
+                <td>
+                    <%= link_to release_log_queue.name, edit_release_log_queue_path(release_log_queue) %>
+                </td>
+
+                <td>
+                    <%= release_log_queue.title_template %>
+                </td>
+
+                <td>
+                    <%= link_to image_tag('edit.png'), edit_release_log_queue_path(release_log_queue), :title => "Edit" %>
+                    <%= link_to image_tag('delete.png'), release_log_queue_path(release_log_queue),
+                                :method => :delete,
+                                :confirm => release_logs_label_for(:confirm_queue_delete ,:queue => release_log_queue.name) %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<br />
+
+<div class="wiki splitcontentleft">
+    <%= link_to new_release_log_queue_path, :class => 'icon icon-add' do %>
+        <%= release_logs_label_for(:create) %>
+    <% end %>
+</div>

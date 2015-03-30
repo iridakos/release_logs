@@ -1,0 +1,9 @@
+<fieldset class="preview">
+    <legend><%= release_logs_label_for(:description) %></legend>
+    <%= textilizable @release_log, :description, :attachments => @attachments %>
+</fieldset>
+
+<fieldset class="preview">
+    <legend><%= l(:field_release_log_release_log_entries) %></legend>
+    <%= render :partial => 'release_log_entries/release_log_grouped_entries_list', :locals => { :release_log_entries => @release_log.release_log_entries, :release_log => @release_log } %>
+</fieldset>

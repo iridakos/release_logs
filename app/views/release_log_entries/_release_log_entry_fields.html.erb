@@ -1,0 +1,84 @@
+<%
+   # Locals
+   #    :release_log_entry
+   #    :project
+   #    :index
+
+   is_template = defined?(release_log_entry) ? false : true
+   release_log_entry ||= ReleaseLogEntry.new(:include_in_notification => true)
+   index = 'template' if is_template
+%>
+
+<div class="box tabular release-log-entry-row" id="release_log_row_<%= index %>">
+    <div class="contextual">
+        <%= link_to 'Remove', '#', :class => 'remove-release-log-entry icon icon-del',
+                    :data => { :index => index } %>
+    </div>
+
+    <div class="entry-errors">
+        <%= error_messages_for release_log_entry %>
+    </div>
+
+    <%= hidden_field_tag 'release_log[release_log_entries_attributes][][id]', release_log_entry.id, :class => 'release-log-entry-id' %>
+
+    <% unless release_log_entry.new_record? %>
+        <%= hidden_field_tag 'release_log[release_log_entries_attributes][][_destroy]',
+                             true,
+                             :disabled => true %>
+    <% end %>
+
+    <div class="splitcontent release-log-entry-field-container">
+        <div class="splitcontentleft">
+                <p>
+                    <label for="<%= "new_release_log_entry_issue_id_#{index}" %>" class="issue-label">Issue</label>
+                    <%= text_field_tag 'release_log[release_log_entries_attributes][][issue_id]',
+                                       (release_log_entry.issue.id if release_log_entry.issue.present?),
+                                       :id => "new_release_log_entry_issue_id_#{index}",
+                                       :class => 'release-log-autocomplete',
+                                       :data => {
+                                               :index => index
+                                       }
+                    %>
+                </p>
+
+                <% if project.queue_release_log_enabled?  && !project.release_log_configuration.release_log_queue.group_by_issue_type %>
+                    <p>
+                        <label for="new_release_log_entry_category_<%= index %>" class="category-label">Category</label>
+                        <%= select_tag 'release_log[release_log_entries_attributes][][release_log_entry_category_id]',
+                                       options_from_collection_for_select(project.release_log_configuration.release_log_queue.release_log_entry_categories,
+                                                                          :id,
+                                                                          :title,
+                                                                          :selected => release_log_entry.release_log_entry_category_id),
+                                       :include_blank => true,
+                                       :id => "new_release_log_entry_category_#{index}",
+                                       :class => 'entry-category'
+                        %>
+                    </p>
+                <% end %>
+
+                <p>
+                    <label for="<%= "new_release_log_entry_include_#{index}" %>" class="include-label">Include in notification</label>
+                    <input <%= release_log_entry.include_in_notification ? 'disabled="disabled"' : '' %> type="hidden" class="inclusion-proxy" value="false" name="release_log[release_log_entries_attributes][][include_in_notification]" />
+                    <%= check_box_tag 'release_log[release_log_entries_attributes][][include_in_notification]',
+                                      1,
+                                      release_log_entry.include_in_notification,
+                                      :id => "new_release_log_entry_include_#{index}",
+                                      :class => 'include-in-notification'
+                    %>
+                </p>
+        </div>
+
+        <div class="splitcontentright">
+            <p>
+                <label for="<%= "new_release_log_entry_note_#{index}" %>" class="note-label">Note</label>
+                <%= text_area_tag 'release_log[release_log_entries_attributes][][note]',
+                                  release_log_entry.note,
+                                  :id => "new_release_log_entry_note_#{index}",
+                                  :class => 'wiki-edit',
+                                  :rows => 5 %>
+                <%= wikitoolbar_for("new_release_log_entry_note_#{index}") unless is_template %>
+            </p>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,103 @@
+<%
+   term_scopes = ReleaseLogs::Searches::ReleaseLogQuery::QUERY_TERM_SCOPES.map do |entry|
+     [release_logs_label_for(entry), entry]
+   end
+
+   release_log_statuses = ReleaseLogs::Searches::ReleaseLogQuery::RELEASE_LOG_STATUSES.map do |status|
+     [release_logs_label_for(status), status]
+   end
+
+   temporal_types = ReleaseLogs::Searches::ReleaseLogQuery::TEMPORAL_TYPES.map do |type|
+     [release_logs_label_for("temporal_#{type}"), type]
+   end
+
+   projects = @projects.map do |project|
+     [project.name, project.id]
+   end
+%>
+<%= labelled_form_for @release_log_query,
+                      :url => release_logs_search_path,
+                      :as => :q,
+                      :html => {
+                              :class => 'release-log-query',
+                              :id => 'query_form'
+                      },
+                      :method => :get do |form| %>
+
+    <%= hidden_field_tag :query, true %>
+
+    <%= error_messages_for @release_log_query %>
+
+    <div class="tabular details">
+        <fieldset>
+            <legend><%= release_logs_label_for(:query) %></legend>
+
+            <div class="splitcontent">
+                <div class="splitcontentleft">
+                    <p>
+                        <%= form.text_field :query_term %>
+                    </p>
+                </div>
+
+                <div class="splitcontentright">
+                    <p>
+                        <%= form.select :query_term_scope,
+                                        term_scopes,
+                                        :include_blank => release_logs_label_for('Everywhere') %>
+                    </p>
+                </div>
+            </div>
+
+            <p>
+                <%= form.select :release_log_status, release_log_statuses, :include_blank => release_logs_label_for('All') %>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend><%= release_logs_label_for(:action) %></legend>
+
+            <div class="splitcontent">
+                <div class="splitcontentleft">
+                    <p>
+                        <%= form.select :temporal_type,
+                                        temporal_types,
+                                        :include_blank => true %>
+                    </p>
+                </div>
+
+                <div class="splitcontentright">
+                    <p>
+                        <%= form.text_field :temporal_from %>
+                        <%= calendar_for('q_temporal_from') %>
+                    </p>
+
+                    <p>
+                        <%= form.text_field :temporal_to %>
+                        <%= calendar_for('q_temporal_to') %>
+                    </p>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend><%= release_logs_label_for(:project_scope) %></legend>
+
+            <div class="splitcontent">
+                <div class="splitcontentleft">
+                    <p>
+                        <%= form.select :query_project,
+                                        projects,
+                                        :include_blank => release_logs_label_for('Any') %>
+                    </p>
+                </div>
+
+                <div class="splitcontentright">
+                    <p>
+                        <%= form.check_box :query_project_and_subprojects, { }, 'true', 'false' %>
+                    </p>
+                </div>
+            </div>
+        </fieldset>
+        <%= submit_tag release_logs_label_for(:search) %>
+    </div>
+<% end %>

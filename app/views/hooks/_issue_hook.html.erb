@@ -1,0 +1,19 @@
+<% if project.present? && project.release_log_enabled? && issue.present? %>
+    <hr />
+    <p>
+        <strong><%= release_logs_label_for(:release_log) %></strong>
+    </p>
+
+    <ul>
+        <% ReleaseLogEntry.for_issue(issue).each do |release_log_entry| %>
+            <li>
+                <%= render :partial => 'release_log_entries/issue_release_log',
+                           :locals => {
+                                   :release_log_entry => release_log_entry,
+                                   :issue => issue,
+                                   :project => project
+                           } %>
+            </li>
+        <% end %>
+    </ul>
+<% end %>

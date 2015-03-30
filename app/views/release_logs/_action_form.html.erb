@@ -1,0 +1,62 @@
+<div class="box tabular">
+    <%= labelled_form_for @release_log,
+                          :url => release_log_path(@release_log, :project_id => @project.identifier),
+                          :html => { :id => 'action_release_log' } do |form| %>
+
+        <%= filtered_error_messages_for @release_log %>
+
+        <div class="rollback_fields" style="display: <%= @show_rollback_form ? 'block' : 'none' %>">
+            <h3><%= release_logs_label_for(:rollback_release) %></h3>
+        </div>
+
+        <div class="cancellation_fields" style="display: <%= @show_cancellation_form ? 'block' : 'none' %>">
+            <h3><%= release_logs_label_for(:cancel_release) %></h3>
+        </div>
+
+        <p id="attachments_form">
+            <label><%= l(:label_attachment_plural) %></label>
+            <%= render :partial => 'attachments/form', :locals => { :container => @release_log } %>
+        </p>
+
+        <p>
+            <%= form.check_box :send_email_notification %>
+        </p>
+
+        <div class="rollback_fields" style="display: <%= @show_rollback_form ? 'block' : 'none' %>">
+            <p>
+                <%= form.text_area :rollback_reason, :rows => 3, :required => true %>
+                <%= wikitoolbar_for 'release_log_rollback_reason' %>
+            </p>
+
+            <%= submit_tag 'Rollback release', :name => 'rollback' %>
+            <a href="#" class="icon icon-preview preview-release-log" data-form-id="action_release_log" data-preview-url="<%= preview_rollback_path(:id => @release_log.id, :project_id => @project.identifier) %>" data-action-method="PUT">
+                <%= release_logs_label_for(:preview) %>
+            </a>
+            <a href="#" class="icon icon-notification preview-release-log" data-form-id="action_release_log" data-preview-url="<%= preview_rollback_notification_path(:id => @release_log.id, :project_id => @project.identifier) %>" data-action-method="PUT">
+                <%= release_logs_label_for(:preview_notification) %>
+            </a>
+            <a href="#" class="icon icon-cancel cancel-release-log-action">
+                <%= release_logs_label_for(:cancel) %>
+            </a>
+        </div>
+
+        <div class="cancellation_fields" style="display: <%= @show_cancellation_form ? 'block' : 'none' %>">
+            <p>
+                <%= form.text_area :cancellation_reason, :rows => 3, :required => true %>
+                <%= wikitoolbar_for 'release_log_cancellation_reason' %>
+            </p>
+
+            <%= submit_tag 'Cancel release', :name => 'cancel' %>
+            <a href="#" class="icon icon-preview preview-release-log" data-form-id="action_release_log" data-preview-url="<%= preview_cancellation_path(:id => @release_log.id, :project_id => @project.identifier) %>" data-action-method="PUT">
+                <%= release_logs_label_for(:preview) %>
+            </a>
+            <a href="#" class="icon icon-notification preview-release-log" data-form-id="action_release_log" data-preview-url="<%= preview_cancel_notification_path(:id => @release_log.id, :project_id => @project.identifier) %>" data-action-method="PUT">
+                <%= release_logs_label_for(:preview_notification) %>
+            </a>
+            <a href="#" class="icon icon-cancel cancel-release-log-action">
+                <%= release_logs_label_for(:cancel) %>
+            </a>
+        </div>
+    <% end %>
+</div>
+

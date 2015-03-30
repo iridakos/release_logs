@@ -1,0 +1,32 @@
+<%= labelled_form_for release_log_configuration do |f| %>
+    <%= error_messages_for 'release_log_configuration' %>
+
+    <div class="box tabular">
+        <p>
+            <%= f.select :project_id,
+                         options_from_collection_for_select(@valid_project_selections, :id, :name, :selected => release_log_configuration.project_id),
+                         {:required => true, :include_blank => true},
+                         :disabled => !release_log_configuration.new_record? %>
+        </p>
+
+        <p>
+            <%= f.check_box :enabled %>
+        </p>
+
+        <p>
+            <%= f.select :release_log_queue_id,
+                         options_from_collection_for_select(@release_log_queues, :id, :name, :selected => release_log_configuration.release_log_queue_id),
+                         {:include_blank => true} %>
+        </p>
+
+        <p>
+            <%= f.text_area :email_notification_recipients, :rows => 5 %>
+            <br />
+            <span class="release-log-info">
+                <%= release_logs_help_for(:configuration_recipients)%>
+            </span>
+        </p>
+    </div>
+    <%= submit_tag release_log_configuration.new_record? ? l(:button_create) : l(:button_update) %>
+    <%= link_to 'Cancel', release_log_configurations_path, :class => 'icon icon-cancel' %>
+<% end %>

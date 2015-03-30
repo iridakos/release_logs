@@ -1,0 +1,14 @@
+<h2 class="release-log-header">
+    <%= release_logs_label_for(:release_logs) %>
+    <%= link_to release_logs_search_path, :class => 'release-log-action icon icon-preview' do %>
+        <%= release_logs_label_for(:search_release_logs) %>
+    <% end %>
+</h2>
+
+<% if @release_logs.present? %>
+    <%= render :partial => 'release_logs/release_log_list', :locals => { :mode => :all, :release_logs => @release_logs } %>
+<% else %>
+    <div class="wiki">
+        <strong><%= release_logs_label_for(:no_release_logs_results) %></strong>
+    </div>
+<% end %>

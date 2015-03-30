@@ -1,0 +1,113 @@
+<% content_for :header_tags do %>
+    <%= javascript_include_tag 'release-logs', :plugin => 'release_logs' %>
+<% end %>
+
+<%= labelled_form_for release_log,
+                      :url => release_log.new_record? ? release_logs_path(:project_id => @project.identifier) : release_log_path(release_log, :project_id => @project.identifier),
+                      :html => {
+                              :class => 'release-log-form',
+                              :id => :release_log_form
+                      } do |form| %>
+
+    <%= filtered_error_messages_for release_log, :exclude => :release_log_entries %>
+
+
+    <fieldset>
+        <legend><strong><%= release_logs_label_for(:properties) %></strong></legend>
+
+        <div class="tabular">
+            <% unless @project.release_log_enabled? && @project.release_log_configuration.release_log_queue.present? %>
+                <p>
+                    <%= form.text_field :title, :required => true, :class => 'wide' %>
+                </p>
+            <% end %>
+
+            <p>
+                <%= form.text_area :description,
+                                   :rows => 5,
+                                   :accesskey => accesskey(:edit),
+                                   :class => 'wiki-edit' %>
+                <%= wikitoolbar_for 'release_log_description' %>
+            </p>
+
+            <p>
+                <%= form.check_box :send_email_notification %>
+            </p>
+        </div>
+    </fieldset>
+
+    <br/>
+
+    <fieldset>
+        <legend><strong><%= release_logs_label_for(:release_plan) %></strong></legend>
+
+        <p>
+            <%= form.radio_button :release_upon_publish, true %>
+            <label style="margin-left: 5px; float: none;" for="release_log_release_upon_publish_true"><%= release_logs_label_for(:plan_publish) %></label>
+            <br/>
+            <%= form.radio_button :release_upon_publish, false %>
+            <label style="margin-left: 5px; float: none;" for="release_log_release_upon_publish_false"><%= release_logs_label_for(:plan_future) %></label>
+            <%= form.text_field :release_date, :no_label => true %>
+            <%= calendar_for('release_log_release_date') %>
+            <%= release_logs_label_for(:time) %>:
+            <%= form.select :release_hour, options_for_select((0..23).to_a.map { |hour| [hour.to_s.rjust(2, '0'), hour] }, :selected => user_timezone_hour_for(release_log.release_hour)), {:include_blank => true, :no_label => true} %>
+            <%= form.select :release_minutes, options_for_select((0..59).to_a.map { |minute| [minute.to_s.rjust(2, '0'), minute] }, :selected => release_log.release_minutes), {:include_blank => true, :no_label => true} %>
+        </p>
+    </fieldset>
+
+    <br/>
+
+    <fieldset>
+        <legend><strong><%= release_logs_label_for(:files) %></strong></legend>
+
+        <div class="tabular">
+            <p id="attachments_form">
+                <label><%= l(:label_attachment_plural) %></label>
+                <%= render :partial => 'attachments/form', :locals => {:container => @release_log} %>
+                <%= link_to_attachments @release_log, :thumbnails => true %>
+            </p>
+        </div>
+    </fieldset>
+
+    <br/>
+
+    <fieldset>
+        <legend><strong><%= l(:field_release_log_release_log_entries) %></strong>
+            <a href="#" id="add-new-release-log" class="rl-link-with-image icon icon-add"><%= release_logs_label_for(:add_new) %></a></legend>
+
+        <div id="release_log_entries_container" data-autocomplete-url="<%= auto_complete_issues_path(:project_id => @project, :scope => :hierarchy) %>">
+            <% @release_log.release_log_entries.each_with_index do |release_log_entry, index| %>
+                <%= render :partial => 'release_log_entries/release_log_entry_fields', :locals => {:project => @project, :release_log_entry => release_log_entry, :index => index} %>
+            <% end %>
+        </div>
+    </fieldset>
+
+    <br/>
+
+    <%= submit_tag release_logs_label_for(:save), :name => 'save' %>
+    <% if release_log.draft? %>
+        <%= submit_tag release_logs_label_for(:save_publish), :name => 'publish' %>
+    <% end %>
+    <a href="#" class="icon icon-preview preview-release-log" data-preview-url="<%= release_log.new_record? ? preview_release_log_path(:project_id => @project.identifier) : preview_existing_release_log_path(:id => release_log.id, :project_id => @project.identifier) %>" data-form-id="release_log_form">
+        <%= release_logs_label_for(:preview) %>
+    </a>
+
+    <a href="#" class="icon icon-notification preview-release-log" data-preview-url="<%= release_log.new_record? ? preview_publish_notification_path(:project_id => @project.identifier) : preview_existing_publish_notification_path(:id => release_log.id, :project_id => @project.identifier) %>" data-form-id="release_log_form">
+        <%= release_logs_label_for(:preview_notification) %>
+    </a>
+<% end %>
+
+<div style="display: none;">
+    <%= render :partial => 'release_log_entries/release_log_entry_fields', :locals => {:project => @project} %>
+</div>
+
+<div id="release_preview_log_container" style="display: none">
+    <div id="preview">
+        <div class="contextual">
+            <a href="#" class="release-log-close-preview"><%= release_logs_label_for(:close) %></a>
+        </div>
+        <h1><%= release_logs_label_for(:preview) %></h1>
+
+        <div id="preview_content"></div>
+    </div>
+</div>

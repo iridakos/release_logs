@@ -121,6 +121,7 @@ jQuery(document).ready(function () {
 
         $.ajax({
             method: $element.data('action-method') || 'POST',
+            type: $element.data('action-method') || 'POST',
             url: $element.data('preview-url'),
             data: $form.serialize(),
             success: function (data) {

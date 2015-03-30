@@ -30,3 +30,7 @@ class ReleaseLogEntry < ActiveRecord::Base
     end
   end
 end
+
+Issue.class_eval do
+  has_many :release_log_enties, :inverse_of => :issue, :dependent => :nullify, :class_name => 'ReleaseLogEntry'
+end

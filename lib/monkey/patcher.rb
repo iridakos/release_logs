@@ -1,10 +1,6 @@
 module ReleaseLogs
   class Patcher
     def self.register_patches
-      Issue.class_eval do
-        has_many :release_log_enties, :inverse_of => :issue, :dependent => :nullify
-      end
-
       Project.class_eval do
         has_one :release_log_configuration, :inverse_of => :project, :dependent => :destroy
         has_many :release_logs, :inverse_of => :project, :dependent => :destroy

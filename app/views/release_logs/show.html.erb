@@ -15,6 +15,8 @@
 
             <%= link_to(release_logs_label_for(:clone), clone_release_log_path(@release_log, :project_id => @release_log.project.identifier), :class => 'icon icon-copy') %>
 
+            <%= link_to(release_logs_label_for(:delete), destroy_release_log_path(@release_log, :project_id => @release_log.project.identifier), :class => 'icon icon-del', :method => :delete, :confirm => release_logs_label_for(:confirm_release_log_delete)) %>
+
             <% if @release_log.released? && !@release_log.rolled_back? && !@release_log.cancelled? %>
                 <a href="#" class="release-action-link icon icon-rollback" data-target="rollback">
                     <%= release_logs_label_for(:rollback_release) %>

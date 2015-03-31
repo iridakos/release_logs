@@ -13,8 +13,6 @@ class ReleaseLogsController < ReleaseLogsBaseController
   before_filter :load_configuration
   before_filter :load_release_log, :only => [:edit, :show, :update, :destroy, :clone, :send_notification]
 
-  before_filter :fix_hour_parameter, :only => [:create, :update]
-
   def index
     @limit = params[:limit] || DEFAULT_LIMIT
     @release_log_count = ReleaseLog.for_project(@project).latest.count
@@ -98,6 +96,7 @@ class ReleaseLogsController < ReleaseLogsBaseController
   protected
 
   def save_release_log
+    fix_hour_parameter
     new_record = @release_log.new_record?
     should_publish = params[:publish] && !@release_log.published?
 
@@ -123,6 +122,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
       send_release_log_notification(ReleaseLogNotification::TYPE_PUBLISH) if should_publish && @release_log.send_email_notification?
       redirect_to release_log_path(@release_log, :project_id => @project.identifier)
     else
+      revert_fix_hour_parameter
+
       if should_publish
         @release_log.published_at = nil
         @release_log.released_at = nil if @release_log.release_upon_publish
@@ -182,6 +183,14 @@ class ReleaseLogsController < ReleaseLogsBaseController
   end
 
   protected
+
+  def fix_hour_parameter
+    @release_log.release_hour = system_timezone_hour_for(params[:release_log][:release_hour]) if params[:release_log][:release_hour]
+  end
+
+  def revert_fix_hour_parameter
+    @release_log.release_hour = params[:release_log][:release_hour] if params[:release_log][:release_hour]
+  end
 
   def load_project
     @project = Project.find_by_identifier(params[:project_id])

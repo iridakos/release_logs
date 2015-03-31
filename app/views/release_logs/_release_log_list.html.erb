@@ -38,7 +38,7 @@
 
             <tr>
                 <td class="release-log-id">
-                    <strong><%= link_to release_log.identifier, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
+                    <strong><%= link_to release_log.id, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
                 </td>
 
                 <% if all_mode %>
@@ -86,12 +86,12 @@
                     <% end %>
                 </td>
 
-                <td>
+                <td class="release-log-release-date">
                     <%= format_time release_log.released_at %>
                 </td>
 
                 <% if can_manage %>
-                    <td>
+                    <td class="release-log-actions">
                         <%= link_to(image_tag('edit.png'), edit_release_log_path(release_log, :project_id => release_log.project.identifier)) unless release_log.published? || release_log.rolled_back? || release_log.cancelled? %>
                         <%= link_to image_tag('delete.png'), destroy_release_log_path(release_log, :project_id => release_log.project.identifier), :method => :delete, :confirm => release_logs_label_for(:confirm_release_log_delete) %>
                     </td>

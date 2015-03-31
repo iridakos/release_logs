@@ -1,9 +1,9 @@
-<h1 style="font-size: 16px; font-weight: bold; background: #8A0808; border: 1px solid #610B0B; color: #fff; padding: 10px; margin-bottom: 5px;"><%= @release_log.project.name %>
-    - Release rollback notification</h1>
+<h1 style="font-size: 16px; font-weight: bold; background: #8A0808; border: 1px solid #610B0B; color: #fff; padding: 10px; margin-bottom: 5px;">
+    <%= @release_log.title %> - <%= @release_log.project.name %> - <%= release_logs_label_for(:release_rollback_notification) %></h1>
 <br/>
 <span style="font-size: 14px;">
     <%= release_logs_label_for(:release_rollback_message,
-                               :release_identifier => link_to("#{@release_log.identifier}", release_log_url(@release_log, :project_id => @release_log.project.identifier)),
+                               :release_identifier => link_to("#{@release_log.id}", release_log_url(@release_log, :project_id => @release_log.project.identifier)),
                                :project_name => @release_log.project.name,
                                :date => format_time(@release_log.rolled_back_at),
                                :user => @release_log.rollbacker.name).html_safe %>

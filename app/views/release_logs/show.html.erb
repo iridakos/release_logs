@@ -6,7 +6,7 @@
    can_manage = User.current.allowed_to?(:manage_project_release_logs, @project)
 %>
 
-<h2><%= @release_log.identifier %> - <%= @release_log.status.titleize %></h2>
+<h2><%= @release_log.title %> - <%= @release_log.id %> - <%= @release_log.status.titleize %></h2>
 
 <div class="details">
     <% if can_manage %>

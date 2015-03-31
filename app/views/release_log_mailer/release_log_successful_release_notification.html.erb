@@ -1,8 +1,9 @@
-<h1 style="font-size: 16px; font-weight: bold; background: #087738; border: 1px solid #06662F; color: #fff; padding: 10px; margin-bottom: 5px;"><%= @release_log.project.name %> - <%= release_logs_label_for(:release_success_notification) %></h1>
+<h1 style="font-size: 16px; font-weight: bold; background: #087738; border: 1px solid #06662F; color: #fff; padding: 10px; margin-bottom: 5px;">
+    <%= @release_log.title %> - <%= @release_log.project.name %> - <%= release_logs_label_for(:release_success_notification) %></h1>
 <br />
 <span style="font-size: 14px;">
     <%= release_logs_label_for(:release_success_message,
-                               :release_identifier => link_to(@release_log.identifier, release_log_url(@release_log, :project_id => @release_log.project.identifier)),
+                               :release_identifier => link_to(@release_log.id, release_log_url(@release_log, :project_id => @release_log.project.identifier)),
                                :project_name => @release_log.project.name ).html_safe %>
 </span>
 <br />

@@ -1,12 +1,12 @@
-<h1 style="font-size: 16px; font-weight: bold; background: #075490; border: 1px solid #084B8A; color: #fff; padding: 10px; margin-bottom: 5px;"><%= @release_log.project.name %>
-    - <%= release_logs_label_for(:release_publish_notification) %></h1>
+<h1 style="font-size: 16px; font-weight: bold; background: #075490; border: 1px solid #084B8A; color: #fff; padding: 10px; margin-bottom: 5px;">
+    <%= @release_log.title %> - <%= @release_log.project.name %> - <%= release_logs_label_for(:release_publish_notification) %></h1>
 <br/>
 <span style="font-size: 14px;">
     <% future = !@release_log.release_upon_publish && @release_log.released_at.present? && @release_log.released_at >= Time.current
        date = future ? release_logs_label_for(:date_on, :date => "#{@release_log.released_at.strftime('%A')}, #{format_time(@release_log.released_at)}") : release_logs_label_for(:shortly) %>
 
     <%= release_logs_label_for(:release_publish_message,
-                               :release_identifier => link_to("#{@release_log.identifier}", release_log_url(@release_log, :project_id => @release_log.project.identifier)),
+                               :release_identifier => link_to("#{@release_log.id}", release_log_url(@release_log, :project_id => @release_log.project.identifier)),
                                :project_name => @release_log.project.name,
                                :date => date).html_safe %>
 </span>

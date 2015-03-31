@@ -155,10 +155,6 @@ class ReleaseLog < ActiveRecord::Base
     published? && released_at.present? && !cancelled? && !rolled_back? && released_at >= Time.current
   end
 
-  def identifier
-    "#{title}##{id}"
-  end
-
   def status
     return DRAFT_STATUS if draft?
     return ROLLED_BACK_STATUS if rolled_back?

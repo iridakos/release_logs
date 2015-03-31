@@ -39,6 +39,9 @@ module ReleaseLogs
       attr_accessor :query_project
       attr_accessor :query_project_and_subprojects
 
+      # Queue
+      attr_accessor :query_queue
+
       validates :query_term_scope,
                 :inclusion => QUERY_TERM_SCOPES,
                 :allow_blank => true
@@ -104,6 +107,10 @@ module ReleaseLogs
           project = Project.find(query_project)
           and_subs = query_project_and_subprojects == 'true' ? true : false
           scope = scope.send(:with_project, project, and_subs)
+        end
+
+        if query_queue.present?
+          scope = scope.send(:with_queue, query_queue)
         end
 
         if offset.present? && limit.present?

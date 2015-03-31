@@ -21,6 +21,7 @@ class ReleaseLogsHomeController < ReleaseLogsBaseController
 
   def search
     @projects = Project.all
+    @queues = ReleaseLogQueue.all
     @release_log_query = ReleaseLogs::Searches::ReleaseLogQuery.new(params[:q] || {})
 
     if params[:query] == 'true' && @release_log_query.valid?

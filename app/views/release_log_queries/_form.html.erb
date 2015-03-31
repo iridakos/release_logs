@@ -14,6 +14,10 @@
    projects = @projects.map do |project|
      [project.name, project.id]
    end
+
+   queues = @queues.map do |queue|
+     [queue.name, queue.id]
+   end
 %>
 <%= labelled_form_for @release_log_query,
                       :url => release_logs_search_path,
@@ -80,7 +84,13 @@
         </fieldset>
 
         <fieldset>
-            <legend><%= release_logs_label_for(:project_scope) %></legend>
+            <legend><%= release_logs_label_for(:scope) %></legend>
+
+            <p>
+                <%= form.select :query_queue,
+                                queues,
+                                :include_blank => release_logs_label_for('Any') %>
+            </p>
 
             <div class="splitcontent">
                 <div class="splitcontentleft">

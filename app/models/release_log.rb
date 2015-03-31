@@ -48,6 +48,8 @@ class ReleaseLog < ActiveRecord::Base
   scope :with_rolled_back_status, -> { where('published_at IS NOT NULL and rolled_back_at IS NOT NULL', :now => Time.now) }
   scope :with_cancelled_status, -> { where('published_at IS NOT NULL and cancelled_at IS NOT NULL', :now => Time.now) }
 
+  scope :with_queue, -> (queue) { where(:release_log_queue_id => queue) }
+
   scope :temporal, ->(type, from, to) {
     column = case type
                when 'released' then

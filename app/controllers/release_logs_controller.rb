@@ -88,8 +88,10 @@ class ReleaseLogsController < ReleaseLogsBaseController
       @release_log.save
     end
 
-    send_release_log_notification type
-    flash[:notice] = release_logs_label_for(:notification_sent)
+    if send_release_log_notification(type)
+      flash[:notice] = release_logs_label_for(:notification_sent)
+    end
+
     redirect_to release_log_path(@release_log, :project_id => @project.identifier)
   end
 
@@ -132,30 +134,13 @@ class ReleaseLogsController < ReleaseLogsBaseController
     end
   end
 
-  def send_release_log_notification(type)
-      message = ReleaseLogMailer.send(:"release_log_#{type}_notification", @release_log)
-      message.deliver
-      notification = @release_log.release_log_notifications.build(:notification_type => type, :sent_at => Time.now)
-      notification.release_log_queue_id = @project.release_log_configuration.release_log_queue.id if @project.queue_release_log_enabled?
-      notification.message_id = message.message_id
-      notification.title = @release_log.title
-      notification.save!
-  rescue
-    flash[:error] = release_logs_label_for(:notification_failed)
-  end
-
-  def fix_hour_parameter
-    params[:release_log][:release_hour] = system_timezone_hour_for(params[:release_log][:release_hour]) if params[:release_log][:release_hour]
-  end
-
   def rollback_release_log
     @release_log.rollbacker = User.current
     @release_log.rolled_back_at = Time.now
     @release_log.save_attachments(params[:attachments])
 
-    if @release_log.save
+    if @release_log.save && (!@release_log.send_email_notification? || send_release_log_notification(ReleaseLogNotification::TYPE_ROLLBACK))
       flash[:notice] = release_logs_label_for(:successful_rollback, :title => @release_log.title)
-      send_release_log_notification(ReleaseLogNotification::TYPE_ROLLBACK) if @release_log.send_email_notification?
       redirect_to release_log_path(@release_log, :project_id => @project.identifier)
     else
       @release_log.rollbacker = nil
@@ -170,9 +155,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
     @release_log.cancelled_at = Time.now
     @release_log.save_attachments(params[:attachments])
 
-    if @release_log.save
+    if @release_log.save && (!@release_log.send_email_notification? || send_release_log_notification(ReleaseLogNotification::TYPE_CANCEL))
       flash[:notice] = release_logs_label_for(:successful_cancellation, :title => @release_log.title)
-      send_release_log_notification(ReleaseLogNotification::TYPE_CANCEL) if @release_log.send_email_notification?
       redirect_to release_log_path(@release_log, :project_id => @project.identifier)
     else
       @release_log.canceller = nil
@@ -183,6 +167,22 @@ class ReleaseLogsController < ReleaseLogsBaseController
   end
 
   protected
+
+  def send_release_log_notification(type)
+    message = ReleaseLogMailer.send(:"release_log_#{type}_notification", @release_log)
+    message.deliver
+    notification = @release_log.release_log_notifications.build(:notification_type => type, :sent_at => Time.now)
+    notification.release_log_queue_id = @project.release_log_configuration.release_log_queue.id if @project.queue_release_log_enabled?
+    notification.message_id = message.message_id
+    notification.title = @release_log.title
+    notification.save!
+    true
+  rescue => e
+    flash[:error] = release_logs_label_for(:notification_failed)
+    logger.error e.message
+    logger.error e.backtrace.join("\n")
+    false
+  end
 
   def fix_hour_parameter
     @release_log.release_hour = system_timezone_hour_for(params[:release_log][:release_hour]) if params[:release_log][:release_hour]

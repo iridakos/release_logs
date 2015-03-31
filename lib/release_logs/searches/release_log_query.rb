@@ -68,7 +68,7 @@ module ReleaseLogs
       def execute(offset = nil, limit = nil)
         return [] unless self.valid?
 
-        scope = ReleaseLog
+        scope = ReleaseLog.select('DISTINCT release_logs.*')
         term = query_term.present? ? "%#{query_term}%" : nil
 
         if term.present?

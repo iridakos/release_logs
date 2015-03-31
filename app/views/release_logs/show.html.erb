@@ -105,6 +105,8 @@
 <%= render :partial => 'release_log_entries/release_log_grouped_entries_list', :locals => { :release_log_entries => @release_log.release_log_entries, :release_log => @release_log } %>
 <br />
 
+<hr />
+
 <div class="content">
     <% if can_manage %>
         <div class="contextual">
@@ -143,8 +145,6 @@
             <% end %>
         </div>
     <% end %>
-
-    <hr />
 
     <h3><%= release_logs_label_for(:notifications) %></h3>
 

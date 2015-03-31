@@ -24,8 +24,12 @@ class ReleaseLogMailer < Mailer
       end
     end
 
-    mail(:to => @release_log_configuration.recipients,
-         :subject => "#{release_log.title} - Release log") do |format|
+    recipient_addresses = @release_log_configuration.recipient_addresses
+    recipient_addresses << @release_log_queue.recipient_addresses if @release_log_queue.present?
+    recipient_addresses = recipient_addresses.flatten.uniq
+
+    mail(:to => recipient_addresses,
+         :subject => "#{release_log.title} - #{I18n.translate(:release_logs_release_notifications)}") do |format|
       format.html {
         render :text => template
       }

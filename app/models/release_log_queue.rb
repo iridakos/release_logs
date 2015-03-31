@@ -34,6 +34,8 @@ class ReleaseLogQueue < ActiveRecord::Base
 
   validates :title_template, :presence => true, :length => { :maximum => 255 }
 
+  validates :email_notification_recipients, :presence => true, :multiple_email_addresses => true
+
   validate :title_template_syntax
 
   def generate_title(project = Project.new(:name => 'TestProject'), date = Date.today)
@@ -43,11 +45,13 @@ class ReleaseLogQueue < ActiveRecord::Base
       title.gsub("{{#{interpolation[0]}}}", interpolation[1].call(date))
     end
 
-    title = PROJECT_INTERPOLATIONS.to_a.inject(title) do |title, interpolation|
+    PROJECT_INTERPOLATIONS.to_a.inject(title) do |title, interpolation|
       title.gsub("{{#{interpolation[0]}}}", interpolation[1].call(project))
     end
+  end
 
-    title
+  def recipient_addresses
+    self.email_notification_recipients.split(',')
   end
 
   protected

@@ -4,6 +4,7 @@ class CreateReleaseLogQueues < ActiveRecord::Migration
       t.string :name, :null => false
       t.string :title_template
       t.boolean :group_by_issue_type
+      t.text :email_notification_recipients, :null => false
 
       t.timestamps
     end

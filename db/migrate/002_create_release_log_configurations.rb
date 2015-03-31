@@ -3,7 +3,7 @@ class CreateReleaseLogConfigurations < ActiveRecord::Migration
     create_table :release_log_configurations do |t|
       t.integer :project_id, :null => false
       t.boolean :enabled, :default => true
-      t.text :email_notification_recipients, :null => false
+      t.text :email_notification_recipients
       t.integer :release_log_queue_id
 
       t.timestamps

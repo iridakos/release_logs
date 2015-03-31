@@ -8,6 +8,7 @@
         <tr>
             <th><%= release_logs_label_for(:name) %></th>
             <th><%= release_logs_label_for(:title_template) %></th>
+            <th><%= release_logs_label_for(:email_notification_recipients) %></th>
             <th><%= release_logs_label_for(:actions) %></th>
         </tr>
         </thead>
@@ -20,6 +21,10 @@
 
                 <td>
                     <%= release_log_queue.title_template %>
+                </td>
+
+                <td>
+                    <%= release_log_queue.email_notification_recipients.truncate(60) %>
                 </td>
 
                 <td>

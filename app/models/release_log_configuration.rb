@@ -9,24 +9,14 @@ class ReleaseLogConfiguration < ActiveRecord::Base
   scope :enabled, lambda { where(:enabled => true) }
   scope :for_project, lambda { |project_id| where(:project_id => project_id) }
 
-  validate :valid_email_notification_recipients
   validates :project_id, :presence => true, :uniqueness => true
-  validates :email_notification_recipients, :presence => true
+  validates :email_notification_recipients, :presence => { :unless => 'release_log_queue_id.present?' }, :multiple_email_addresses => true
 
   def enabled?
     enabled
   end
 
-  def recipients
+  def recipient_addresses
     self.email_notification_recipients.split(',')
-  end
-
-  protected
-
-  def valid_email_notification_recipients
-    emails = self.email_notification_recipients.split(',')
-    emails.each do |email|
-      self.errors[:email_notification_recipients] << ": #{email} is not a valid email" unless email.strip =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-    end
   end
 end

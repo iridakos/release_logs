@@ -18,6 +18,7 @@ class ReleaseLog < ActiveRecord::Base
   belongs_to :publisher, :class_name => 'User', :foreign_key => 'published_by'
   belongs_to :canceller, :class_name => 'User', :foreign_key => 'cancelled_by'
   belongs_to :rollbacker, :class_name => 'User', :foreign_key => 'rolled_back_by'
+  belongs_to :release_log_queue, :inverse_of => :release_logs
 
   accepts_nested_attributes_for :release_log_entries, :allow_destroy => true
 
@@ -27,6 +28,8 @@ class ReleaseLog < ActiveRecord::Base
 
   acts_as_attachable :view_permission => :view_project_release_logs,
                      :delete_permission => :manage_project_release_logs
+
+  before_save :assign_to_release_log_queue
 
   ### Scopes ###
   scope :for_project, lambda { |project| where(:project_id => project.id) }
@@ -180,6 +183,11 @@ class ReleaseLog < ActiveRecord::Base
   end
 
   protected
+
+  def assign_to_release_log_queue
+    proj = self.project || Project.find(self.project_id)
+    self.release_log_queue_id = proj.release_log_configuration.release_log_queue.id if proj.release_log_configuration.present? && proj.release_log_configuration.release_log_queue.present?
+  end
 
   def unique_issues
     issues = release_log_entries.map(&:issue_id).compact

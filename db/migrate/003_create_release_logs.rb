@@ -10,6 +10,7 @@ class CreateReleaseLogs < ActiveRecord::Migration
 
       t.integer :project_id, :null => false
       t.integer :user_id, :null => false
+      t.integer :release_log_queue_id
 
       t.datetime :published_at
       t.integer :published_by
@@ -33,5 +34,6 @@ class CreateReleaseLogs < ActiveRecord::Migration
     add_index :release_logs, :published_at, :name => :rl_published_at
     add_index :release_logs, :rolled_back_at, :name => :rl_rolled_at
     add_index :release_logs, :cancelled_at, :name => :rl_cancelled_at
+    add_index :release_logs, :release_log_queue_id, :name => :rl_log_q_id
   end
 end

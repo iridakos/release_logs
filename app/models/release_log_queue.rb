@@ -21,6 +21,7 @@ class ReleaseLogQueue < ActiveRecord::Base
 
   has_many :release_log_entry_categories, :dependent => :destroy, :inverse_of => :release_log_queue
   has_many :release_log_notifications, :dependent => :nullify, :inverse_of => :release_log_queue
+  has_many :release_logs, :dependent => :nullify, :inverse_of => :release_log_queue
 
   accepts_nested_attributes_for :release_log_entry_categories, :allow_destroy => true
 

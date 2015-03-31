@@ -2,6 +2,8 @@
 
 Release logs is a [redmine](http://redmine.org) plugin that helps you keep track of your projects' releases.
 
+![](http://1.bp.blogspot.com/-ikiVvX7rKsc/VRsMUJFKeSI/AAAAAAAABVI/_UgqvFmrxu8/s1600/release-log-form.png)
+
 ## You will find this plugin useful if:
 
 * you **release** your projects continuously (ex. in a weekly basis)

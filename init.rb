@@ -8,10 +8,10 @@ Redmine::Plugin.register :release_logs do
   name 'Release Logs plugin'
   author 'Lazarus Lazaridis'
   description 'Redmine plugin for managing project releases'
-  version '0.0.1'
+  version '0.1.0'
   url 'https://github.com/iridakos/release_logs'
   author_url 'http://www.arubystory.com'
-  requires_redmine :version_or_higher => '2.1.0'
+  requires_redmine :version_or_higher => '2.5.2'
 
   permission :manage_release_log_configurations, :release_log_configurations => [:index, :new, :create, :edit, :update, :destroy]
   permission :manage_release_log_queues, :release_log_queues => [:index, :new, :create, :edit, :update, :destroy]

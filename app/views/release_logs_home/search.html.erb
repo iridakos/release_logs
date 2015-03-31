@@ -1,5 +1,7 @@
 <%= render :partial => 'release_log_queries/form' %>
 
 <% if @release_logs.present? %>
-    <%= render :partial => 'release_logs/release_log_list', :locals => { :mode => :all, :release_logs => @release_logs } %>
+    <div class="release-log-results">
+        <%= render :partial => 'release_logs/release_log_list', :locals => { :mode => :all, :release_logs => @release_logs } %>
+    </div>
 <% end %>

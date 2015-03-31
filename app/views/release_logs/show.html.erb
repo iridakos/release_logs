@@ -91,8 +91,12 @@
 
     <hr />
 
-    <h3><%= release_logs_label_for(:attachments) %></h3>
-    <%= link_to_attachments @release_log, :thumbnails => true %>
+    <% if @release_log.attachments.present? %>
+        <h3><%= release_logs_label_for(:attachments) %></h3>
+        <%= link_to_attachments @release_log, :thumbnails => true %>
+
+        <hr />
+    <% end %>
 </div>
 
 <h3><%= l(:field_release_log_release_log_entries) %></h3>
@@ -137,6 +141,8 @@
             <% end %>
         </div>
     <% end %>
+
+    <hr />
 
     <h3><%= release_logs_label_for(:notifications) %></h3>
 

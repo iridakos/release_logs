@@ -49,8 +49,11 @@ td.justified { text-align: justify !important; }
 .release-log-list .release-log-column-preview { max-height: 150px; overflow: auto; display: inline-block; position: relative; left: 0; right: 0; width: 100%; }
 h2.release-log-header a.release-log-action { font-size: 14px; float: right; }
 
-.release-log-list td.issue-column { width: 10%; }
+.release-log-list td.release-log-release-date, .release-log-list td.release-log-actions { vertical-align: middle; }
+
+.release-log-list td.issue-column { width: 10%; font-size: 14px; font-weight: bold; }
 .release-log-list td.note-column { width: 90%; }
+.release-log-list td.note-column h4 { border-bottom: 0 none; }
 .release-log-list td.category-title { font-size: 14px; font-weight: bold; background: #666; color: #fff; text-align: left; }
 
 /* Typography */

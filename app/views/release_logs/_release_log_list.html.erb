@@ -90,10 +90,12 @@
                     <%= format_time release_log.released_at %>
                 </td>
 
-                <% if can_manage %>
+                <% if all_mode || can_manage %>
                     <td class="release-log-actions">
-                        <%= link_to(image_tag('edit.png'), edit_release_log_path(release_log, :project_id => release_log.project.identifier)) unless release_log.published? || release_log.rolled_back? || release_log.cancelled? %>
-                        <%= link_to image_tag('delete.png'), destroy_release_log_path(release_log, :project_id => release_log.project.identifier), :method => :delete, :confirm => release_logs_label_for(:confirm_release_log_delete) %>
+                        <% if can_manage %>
+                            <%= link_to(image_tag('edit.png'), edit_release_log_path(release_log, :project_id => release_log.project.identifier)) unless release_log.published? || release_log.rolled_back? || release_log.cancelled? %>
+                            <%= link_to image_tag('delete.png'), destroy_release_log_path(release_log, :project_id => release_log.project.identifier), :method => :delete, :confirm => release_logs_label_for(:confirm_release_log_delete) %>
+                        <% end %>
                     </td>
                 <% end %>
             </tr>

@@ -18,7 +18,7 @@ Redmine::Plugin.register :release_logs do
 
   permission :view_global_release_logs, :release_logs_home => [:index, :search]
 
-  menu :top_menu, :release_logs, { :controller => 'release_logs_home', :action => 'index' }, :caption => 'Release logs', :if => -> (project) { User.current.allowed_to_globally?(:view_global_release_logs, {}) }
+  menu :top_menu, :release_logs, { :controller => 'release_logs_home', :action => 'index' }, :caption => 'Release logs', :if => lambda { |project| User.current.allowed_to_globally?(:view_global_release_logs, {}) }
 
   menu :admin_menu, :release_log_configurations, { :controller => 'release_log_configurations', :action => :index }, :caption => 'Release log configurations', :html => { :class => 'release-logs' }
   menu :admin_menu, :release_log_queues, { :controller => 'release_log_queues', :action => 'index' }, :caption => 'Release log queues', :html => { :class => 'release-log-queues' }, :after => :release_logs

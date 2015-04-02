@@ -36,21 +36,21 @@ class ReleaseLog < ActiveRecord::Base
   scope :latest, lambda { order('COALESCE(release_logs.released_at, release_logs.created_at) desc') }
 
   ### Query scopes ###
-  scope :with_text, -> (text) { joins(:release_log_entries => [ :issue ]).where('release_logs.title like :text or release_logs.description like :text or issues.subject like :text or issues.description like :text or release_log_entries.note like :text', :text => text) }
-  scope :with_issue_text, -> (text) { joins(:release_log_entries => [ :issue ]).where('issues.subject like :text or issues.description like :text', :text => text) }
-  scope :with_release_log_title_text, -> (text) { where('release_logs.title like :text', :text => text) }
-  scope :with_release_log_description_text, -> (text) { where('release_logs.description like :text', :text => text) }
-  scope :with_release_log_entry_note_text, -> (text) { joins(:release_log_entries).where('release_log_entries.note like :text', :text => text) }
+  scope :with_text, lambda { |text| joins(:release_log_entries => [ :issue ]).where('release_logs.title like :text or release_logs.description like :text or issues.subject like :text or issues.description like :text or release_log_entries.note like :text', :text => text) }
+  scope :with_issue_text, lambda { |text| joins(:release_log_entries => [ :issue ]).where('issues.subject like :text or issues.description like :text', :text => text) }
+  scope :with_release_log_title_text, lambda { |text| where('release_logs.title like :text', :text => text) }
+  scope :with_release_log_description_text, lambda { |text| where('release_logs.description like :text', :text => text) }
+  scope :with_release_log_entry_note_text, lambda { |text| joins(:release_log_entries).where('release_log_entries.note like :text', :text => text) }
 
-  scope :with_draft_status, -> { where(:published_at => nil) }
-  scope :with_pending_release_status, -> { where('published_at IS NOT NULL and released_at > :now and cancelled_at IS NULL and rolled_back_at IS NULL', :now => Time.now) }
-  scope :with_released_status, -> { where('published_at IS NOT NULL and released_at <= :now and cancelled_at IS NULL and rolled_back_at IS NULL', :now => Time.now) }
-  scope :with_rolled_back_status, -> { where('published_at IS NOT NULL and rolled_back_at IS NOT NULL', :now => Time.now) }
-  scope :with_cancelled_status, -> { where('published_at IS NOT NULL and cancelled_at IS NOT NULL', :now => Time.now) }
+  scope :with_draft_status, lambda { where(:published_at => nil) }
+  scope :with_pending_release_status, lambda { where('published_at IS NOT NULL and released_at > :now and cancelled_at IS NULL and rolled_back_at IS NULL', :now => Time.now) }
+  scope :with_released_status, lambda { where('published_at IS NOT NULL and released_at <= :now and cancelled_at IS NULL and rolled_back_at IS NULL', :now => Time.now) }
+  scope :with_rolled_back_status, lambda { where('published_at IS NOT NULL and rolled_back_at IS NOT NULL', :now => Time.now) }
+  scope :with_cancelled_status, lambda { where('published_at IS NOT NULL and cancelled_at IS NOT NULL', :now => Time.now) }
 
-  scope :with_queue, -> (queue) { where(:release_log_queue_id => queue) }
+  scope :with_queue, lambda { |queue| where(:release_log_queue_id => queue) }
 
-  scope :temporal, ->(type, from, to) {
+  scope :temporal, lambda { |type, from, to|
     column = case type
                when 'released' then
                  'released_at'
@@ -77,7 +77,7 @@ class ReleaseLog < ActiveRecord::Base
     where(script.join(' and '), params)
   }
 
-  scope :with_project, -> (project, descendants = false) {
+  scope :with_project, lambda { |project, descendants = false|
     if descendants
       includes(:project).where('projects.id = :project_id or (projects.lft >= :lft and projects.rgt < :rgt)', :project_id => project.id, :lft => project.lft, :rgt => project.rgt)
     else

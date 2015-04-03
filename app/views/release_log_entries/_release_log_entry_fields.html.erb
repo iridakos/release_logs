@@ -19,11 +19,15 @@
         <%= error_messages_for release_log_entry %>
     </div>
 
-    <%= hidden_field_tag 'release_log[release_log_entries_attributes][][id]', release_log_entry.id, :class => 'release-log-entry-id' %>
+    <%= hidden_field_tag 'release_log[release_log_entries_attributes][][id]',
+                         release_log_entry.id,
+                         :id => "new_release_log_entry_id_#{index}",
+                         :class => 'release-log-entry-id' %>
 
     <% unless release_log_entry.new_record? %>
         <%= hidden_field_tag 'release_log[release_log_entries_attributes][][_destroy]',
                              true,
+                             :id => "new_release_log_entry_destroy_#{index}",
                              :disabled => true %>
     <% end %>
 

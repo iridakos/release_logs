@@ -7,7 +7,6 @@ class ReleaseLogEntry < ActiveRecord::Base
   belongs_to :release_log, :inverse_of => :release_log_entries
   belongs_to :release_log_entry_category, :inverse_of => :release_log_entries
 
-  validates :issue_id, :uniqueness => { :scope => :release_log_id }
   validates :note, :presence => true
   validate :valid_configuration
 

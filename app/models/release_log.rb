@@ -188,7 +188,7 @@ class ReleaseLog < ActiveRecord::Base
   end
 
   def unique_issues
-    issues = release_log_entries.map(&:issue_id).compact
+    issues = release_log_entries.select{ |entry| !entry.marked_for_destruction? }.map(&:issue_id).compact
     if issues && issues.size != issues.uniq.size
       errors.add(:base, :unique_issues)
     end

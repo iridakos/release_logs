@@ -6,13 +6,13 @@ jQuery(document).ready(function () {
     var removeLogEntry = function (element) {
         var $element = $(this);
         var index = $element.data('index'),
-            destroy_id = $element.data('destroy'),
-            error_row_id = $element.data('error-row-id');
+            error_row_id = $element.data('error-row-id'),
+            $destroyElement = $('#new_release_log_entry_destroy_' + index),
+            $idElement = $('#new_release_log_entry_id_' + index);
 
-        if (destroy_id) {
-            var $destroyElement = $(destroy_id);
+        if ($idElement.val()) {
             $destroyElement.removeAttr('disabled');
-            $destroyElement.closest('tr').hide();
+            $destroyElement.closest('.release-log-entry-row').hide();
         } else {
             var $row = $('#release_log_row_' + index);
             $row.remove();
@@ -43,7 +43,7 @@ jQuery(document).ready(function () {
         var content = $template.clone();
 
         content.attr('id', 'release_log_row_' + counter);
-        content.find('.remove-release-log-entry').data('index', counter);
+        content.find('.remove-release-log-entry').attr('data-index', counter);
         content.find('label.issue-label').attr('for', 'new_release_log_entry_issue_id_' + counter);
         content.find('.release-log-autocomplete').attr('id', 'new_release_log_entry_issue_id_' + counter).data('index', counter);
         content.find('label.note-label').attr('for', 'new_release_log_entry_note_' + counter);

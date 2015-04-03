@@ -20,8 +20,6 @@ class ReleaseLogEntry < ActiveRecord::Base
 
     if issue_id.present? && issue.blank?
       errors.add(:issue_id, :release_log_invalid_issue_id)
-    elsif issue_id.present? && !(issue.project.is_or_is_ancestor_of?(project) || issue.project.is_descendant_of?(project))
-      errors.add(:issue_id, :release_log_project_invalid_issue)
     end
 
     if project.queue_release_log_enabled? && !project.release_log_configuration.release_log_queue.group_by_issue_type && self.release_log_entry_category_id.blank?

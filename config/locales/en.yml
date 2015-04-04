@@ -158,7 +158,7 @@ en:
 
   release_logs_label_release_cancellation_message: "The release <strong>%{release_identifier}</strong> of project <strong>%{project_name}</strong> was cancelled at <strong>%{date}</strong> by <strong>%{user}</strong>"
   release_logs_label_release_rollback_message: "The release <strong>%{release_identifier}</strong> of project <strong>%{project_name}</strong> was rolled back at <strong>%{date}</strong> by <strong>%{user}</strong>"
-  release_logs_label_release_publish_message: "A new release (<strong>%{release_identifier}</strong>) for <strong>%{project_name}<strong> will take place <strong>%{date}</strong>."
+  release_logs_label_release_publish_message: "A new release (<strong>%{release_identifier}</strong>) for <strong>%{project_name}</strong> will take place <strong>%{date}</strong>."
   release_logs_label_release_success_message: "The release <strong>%{release_identifier}</strong> of project <strong>%{project_name}</strong> was completed successfully! "
 
   release_logs_label_edit_queue: "Edit Release Log Queue %{queue}"

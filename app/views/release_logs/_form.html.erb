@@ -89,14 +89,16 @@
     <br/>
 
     <fieldset>
-        <legend><strong><%= l(:field_release_log_release_log_entries) %></strong>
-            <a href="#" id="add-new-release-log" class="rl-link-with-image icon icon-add"><%= release_logs_label_for(:add_new) %></a></legend>
+        <legend><strong><%= l(:field_release_log_release_log_entries) %></strong></legend>
 
         <div id="release_log_entries_container" data-autocomplete-url="<%= auto_complete_issues_path(:project_id => @project, :scope => :all) %>">
             <% @release_log.release_log_entries.each_with_index do |release_log_entry, index| %>
                 <%= render :partial => 'release_log_entries/release_log_entry_fields', :locals => {:project => @project, :release_log_entry => release_log_entry, :index => index} %>
             <% end %>
         </div>
+
+        <br />
+        <a href="#" id="add-new-release-log" class="rl-link-with-image icon icon-add"><%= release_logs_label_for(:add_new) %></a>
     </fieldset>
 
     <br/>

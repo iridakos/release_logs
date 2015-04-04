@@ -3,7 +3,9 @@ jQuery(document).ready(function () {
         currentIndex = $container.find('.release-log-entry-row').length,
         autocompleteUrl = $container.data('autocomplete-url');
 
-    var removeLogEntry = function (element) {
+    var removeLogEntry = function (event) {
+        event.preventDefault();
+
         var $element = $(this);
         var index = $element.data('index'),
             error_row_id = $element.data('error-row-id'),

@@ -98,9 +98,15 @@ class ReleaseLogsController < ReleaseLogsBaseController
   protected
 
   def save_release_log
-    fix_hour_parameter
     new_record = @release_log.new_record?
     should_publish = params[:publish] && !@release_log.published?
+
+    unless params[:release_date].blank? || params[:release_hour].blank? || params[:release_minutes].blank?
+      release_date = Date.parse(params[:release_date]).to_time_in_current_zone
+      release_date = User.current.time_zone.present? ? release_date.in_time_zone(User.current.time_zone) : (release_date.utc? ? release_date.localtime : release_date)
+      release_date = release_date.change(:hour => params[:release_hour].to_i, :min => params[:release_minutes].to_i)
+      @release_log.released_at = release_date
+    end
 
     @release_log.project = @project
     @release_log.user_id ||= User.current.id
@@ -124,8 +130,6 @@ class ReleaseLogsController < ReleaseLogsBaseController
       send_release_log_notification(ReleaseLogNotification::TYPE_PUBLISH) if should_publish && @release_log.send_email_notification?
       redirect_to release_log_path(@release_log, :project_id => @project.identifier)
     else
-      revert_fix_hour_parameter
-
       if should_publish
         @release_log.published_at = nil
         @release_log.released_at = nil if @release_log.release_upon_publish
@@ -182,14 +186,6 @@ class ReleaseLogsController < ReleaseLogsBaseController
     logger.error e.message
     logger.error e.backtrace.join("\n")
     false
-  end
-
-  def fix_hour_parameter
-    @release_log.release_hour = system_timezone_hour_for(params[:release_log][:release_hour]) if params[:release_log][:release_hour]
-  end
-
-  def revert_fix_hour_parameter
-    @release_log.release_hour = params[:release_log][:release_hour] if params[:release_log][:release_hour]
   end
 
   def load_project

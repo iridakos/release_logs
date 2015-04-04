@@ -45,13 +45,30 @@
             <%= form.radio_button :release_upon_publish, true %>
             <label style="margin-left: 5px; float: none;" for="release_log_release_upon_publish_true"><%= release_logs_label_for(:plan_publish) %></label>
             <br/>
+
             <%= form.radio_button :release_upon_publish, false %>
             <label style="margin-left: 5px; float: none;" for="release_log_release_upon_publish_false"><%= release_logs_label_for(:plan_future) %></label>
-            <%= form.text_field :release_date, :no_label => true %>
-            <%= calendar_for('release_log_release_date') %>
+
+            <% released_at = (User.current.time_zone.present? ? @release_log.released_at.in_time_zone(User.current.time_zone) : (@release_log.released_at.utc? ? @release_log.released_at.localtime : @release_log.released_at)) if @release_log.released_at.present? %>
+
+            <%= text_field_tag :release_date,
+                               released_at.try(:to_date),
+                               :no_label => true %>
+            <%= calendar_for('release_date') %>
+
             <%= release_logs_label_for(:time) %>:
-            <%= form.select :release_hour, options_for_select((0..23).to_a.map { |hour| [hour.to_s.rjust(2, '0'), hour] }, :selected => user_timezone_hour_for(release_log.release_hour)), {:include_blank => true, :no_label => true} %>
-            <%= form.select :release_minutes, options_for_select((0..59).to_a.map { |minute| [minute.to_s.rjust(2, '0'), minute] }, :selected => release_log.release_minutes), {:include_blank => true, :no_label => true} %>
+            <%= select_tag :release_hour,
+                           options_for_select(
+                                   (0..23).to_a.map { |hour| [hour.to_s.rjust(2, '0'), hour] },
+                                   :selected => released_at.try(:hour)),
+                           :include_blank => true,
+                           :no_label => true %>
+            <%= select_tag :release_minutes,
+                           options_for_select(
+                                   (0..59).to_a.map { |minute| [minute.to_s.rjust(2, '0'), minute] },
+                                   :selected => released_at.try(:min)),
+                           :include_blank => true,
+                           :no_label => true %>
         </p>
     </fieldset>
 

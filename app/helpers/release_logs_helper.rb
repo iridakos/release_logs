@@ -76,4 +76,8 @@ module ReleaseLogsHelper
   def release_logs_help_for(entry, options = {})
     l("release_logs_help_#{entry.downcase}", options)
   end
+
+  def user_date(date)
+    User.current.time_zone.present? ? date.in_time_zone(User.current.time_zone) : (date.utc? ? date.localtime : date)
+  end
 end

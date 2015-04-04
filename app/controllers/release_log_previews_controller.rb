@@ -57,7 +57,11 @@ class ReleaseLogPreviewsController < ReleaseLogsBaseController
     @release_log.project = @project
     @release_log.id ||= 0
 
-    date = @release_log.released_at ||= Time.now
-    @release_log.released_at = Time.now.change(:year => date.year, :month => date.month, :day => date.day, :hour => date.hour, :min => date.min)
+    unless params[:release_date].blank? || params[:release_hour].blank? || params[:release_minutes].blank?
+      release_date = Date.parse(params[:release_date]).to_time_in_current_zone
+      release_date = User.current.time_zone.present? ? release_date.in_time_zone(User.current.time_zone) : (release_date.utc? ? release_date.localtime : release_date)
+      release_date = release_date.change(:hour => params[:release_hour].to_i, :min => params[:release_minutes].to_i)
+      @release_log.released_at = release_date
+    end
   end
 end

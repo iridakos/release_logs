@@ -22,10 +22,6 @@ class ReleaseLog < ActiveRecord::Base
 
   accepts_nested_attributes_for :release_log_entries, :allow_destroy => true
 
-  attr_accessor :release_date
-  attr_accessor :release_hour
-  attr_accessor :release_minutes
-
   acts_as_attachable :view_permission => :view_project_release_logs,
                      :delete_permission => :manage_project_release_logs
 
@@ -96,43 +92,6 @@ class ReleaseLog < ActiveRecord::Base
     self.released_at
   end
 
-  def release_date
-    self.released_at.present? ? self.released_at.to_date : nil
-  end
-
-  def release_date=(new_date)
-    if new_date.present?
-      new_date = Date.parse(new_date) if new_date.is_a? String
-      self.released_at = self.released_at.present? ? self.released_at.change(:year => new_date.year, :month => new_date.month, :day => new_date.day) : new_date.to_datetime
-    else
-      self.released_at = nil
-    end
-  end
-
-  def release_hour
-    self.released_at.present? ? self.released_at.hour : nil
-  end
-
-  def release_hour=(new_hour)
-    if new_hour.present?
-      self.released_at = self.released_at.present? ? self.released_at.change(:hour => new_hour.to_i, :min => self.released_at.min) : Time.current.change(:hour => new_hour.to_i)
-    else
-      self.released_at = nil
-    end
-  end
-
-  def release_minutes
-    self.released_at.present? ? self.released_at.in_time_zone.min : nil
-  end
-
-  def release_minutes=(new_minutes)
-    if new_minutes.present?
-      self.released_at = self.released_at.present? ? self.released_at.change(:hour => self.released_at.hour, :min => new_minutes.to_i) : Time.current.change(:min => new_minutes.to_i)
-    else
-      self.released_at = nil
-    end
-  end
-
   def draft?
     published_at.blank?
   end
@@ -173,7 +132,7 @@ class ReleaseLog < ActiveRecord::Base
 
   def publish(user)
     return if published?
-    self.published_at = Time.current
+    self.published_at = Time.now
     self.published_by = user.id
     self.released_by = user.id
 

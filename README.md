@@ -18,8 +18,6 @@ Release logs is a [redmine](http://redmine.org) plugin that helps you keep track
 
 Find [**here**](http://www.arubystory.com/p/redmine-release-logs-getting-started.html?sr=gth) a full description of the plugin's functionality and installation & usage guides.
 
-**http://www.arubystory.com/p/redmine-release-logs-getting-started.html**
-
 ## Contributing
 
 1. Fork it ( https://github.com/iridakos/release_logs/fork )
@@ -28,7 +26,7 @@ Find [**here**](http://www.arubystory.com/p/redmine-release-logs-getting-started
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
-A special "thanks" goes to the team of [mytrip.com](http://mytrip.com) for extensively testing & giving valuable feedback for this plugin.
+A special "thanks" goes to the team of [**mytrip.com**](http://mytrip.com) for extensively testing & giving valuable feedback for this plugin.
 
 ## Important note
 This is my first redmine plugin:

@@ -16,7 +16,7 @@ Release logs is a [redmine](http://redmine.org) plugin that helps you keep track
 
 ## Getting started
 
-Find [**here**](http://www.arubystory.com/p/redmine-release-logs-getting-started.html) a full description of the plugin's functionality and installation & usage guides.
+Find [**here**](http://www.arubystory.com/p/redmine-release-logs-getting-started.html?sr=gth) a full description of the plugin's functionality and installation & usage guides.
 
 **http://www.arubystory.com/p/redmine-release-logs-getting-started.html**
 

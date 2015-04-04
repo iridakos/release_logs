@@ -1,5 +1,5 @@
 <tr>
-    <td style="width: 200px; padding: 5px; vertical-align: top; border: 1px solid #d7d7d7;">
+    <td style="width: 200px; padding: 5px; vertical-align: top; border: 1px solid #d7d7d7; text-align: center;">
         <% if release_log_entry.issue.present? %>
             <h4><%= link_to "##{release_log_entry.issue.id}", issue_url(release_log_entry.issue), :target => '_blank' %></h4>
         <% end %>

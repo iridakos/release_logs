@@ -28,9 +28,11 @@ Find [**here**](http://www.arubystory.com/p/redmine-release-logs-getting-started
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+A special "thanks" goes to the team of [mytrip.com](http://mytrip.com) for extensively testing & giving valuable feedback for this plugin.
+
 ## Important note
 This is my first redmine plugin:
 1. Use it at your own risk
 2. Any feedback is welcome!
 
-##### [**Lazarus Lazaridis**](http://twitter.com/arubystory)
+[**Lazarus Lazaridis**](http://www.arubystory.com)

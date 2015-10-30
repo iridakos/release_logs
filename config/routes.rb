@@ -16,18 +16,34 @@ get 'release_logs/searches', :to => 'release_logs_home#search', :as => :release_
 delete '/projects/:project_id/release_logs/:id', :to => 'release_logs#destroy', :as => :destroy_release_log
 
 post '/projects/:project_id/release_logs', :to => 'release_logs#create'
-put '/projects/:project_id/release_logs/:id', :to => 'release_logs#update'
+match '/projects/:project_id/release_logs/:id', :to => 'release_logs#update', :via => [:put, :patch]
 
-post '/release_log_previews/project/:project_id/release_log', :to => 'release_log_previews#release_log', :as => :preview_release_log
-put '/release_log_previews/project/:project_id/:id/release_log', :to => 'release_log_previews#release_log', :as => :preview_existing_release_log
+post '/release_log_previews/project/:project_id/release_log', :to => 'release_log_previews#release_log',
+                                                              :as => :preview_release_log
+match '/release_log_previews/project/:project_id/:id/release_log', :to => 'release_log_previews#release_log',
+                                                                   :as => :preview_existing_release_log,
+                                                                   :via => [:put, :patch]
 
-post 'release_log_previews/project/:project_id/release_log/notifications/publish', :to => 'release_log_previews#publish_notification', :as => :preview_publish_notification
-put 'release_log_previews/project/:project_id/release_log/:id/notifications/publish', :to => 'release_log_previews#publish_notification', :as => :preview_existing_publish_notification
+post 'release_log_previews/project/:project_id/release_log/notifications/publish', :to => 'release_log_previews#publish_notification',
+                                                                                   :as => :preview_publish_notification
+match 'release_log_previews/project/:project_id/release_log/:id/notifications/publish', :to => 'release_log_previews#publish_notification',
+                                                                                        :as => :preview_existing_publish_notification,
+                                                                                        :via => [:put, :patch]
 
-put 'release_log_previews/project/:project_id/release_log/:id/notifications/rollback', :to => 'release_log_previews#rollback_notification', :as => :preview_rollback_notification
-put 'release_log_previews/project/:project_id/release_log/:id/notifications/cancel', :to => 'release_log_previews#cancel_notification', :as => :preview_cancel_notification
+match 'release_log_previews/project/:project_id/release_log/:id/notifications/rollback', :to => 'release_log_previews#rollback_notification',
+                                                                                       :as => :preview_rollback_notification,
+                                                                                       :via => [:put, :patch]
+match 'release_log_previews/project/:project_id/release_log/:id/notifications/cancel', :to => 'release_log_previews#cancel_notification',
+                                                                                       :as => :preview_cancel_notification,
+                                                                                       :via => [:put, :patch]
 
-put '/release_log_previews/:id/rollback', :to => 'release_log_previews#rollback', :as => :preview_rollback
-put '/release_log_previews/:id/cancellation', :to => 'release_log_previews#cancellation', :as => :preview_cancellation
+match '/release_log_previews/:id/rollback', :to => 'release_log_previews#rollback',
+                                            :as => :preview_rollback,
+                                            :via => [:put, :patch]
+match '/release_log_previews/:id/cancellation', :to => 'release_log_previews#cancellation',
+                                                :as => :preview_cancellation,
+                                                :via => [:put, :patch]
 
-put '/projects/:project_id/release_logs/:id/send_notification/:type', :to => 'release_logs#send_notification', :as => :send_release_log_notification
+match '/projects/:project_id/release_logs/:id/send_notification/:type', :to => 'release_logs#send_notification',
+                                                                        :as => :send_release_log_notification,
+                                                                        :via => [:put, :patch]

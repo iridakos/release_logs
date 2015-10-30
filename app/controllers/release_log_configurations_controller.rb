@@ -18,7 +18,7 @@ class ReleaseLogConfigurationsController < ReleaseLogsBaseController
   end
 
   def create
-    @release_log_configuration = ReleaseLogConfiguration.new params[:release_log_configuration]
+    @release_log_configuration = ReleaseLogConfiguration.new release_log_configuration_params
     save_configuration
   end
 
@@ -27,7 +27,7 @@ class ReleaseLogConfigurationsController < ReleaseLogsBaseController
   end
 
   def update
-    @release_log_configuration.assign_attributes params[:release_log_configuration]
+    @release_log_configuration.assign_attributes release_log_configuration_params
 
     save_configuration
   end
@@ -39,6 +39,14 @@ class ReleaseLogConfigurationsController < ReleaseLogsBaseController
   end
 
   protected
+
+  def release_log_configuration_params
+    if Rails::VERSION::MAJOR >= 4
+      params.require(:release_log_configuration).permit(:project_id, :enabled, :release_log_queue_id, :email_notification_recipients)
+    else
+      params[:release_log_configuration]
+    end
+  end
 
   def load_configuration
     @release_log_configuration = ReleaseLogConfiguration.find(params[:id])

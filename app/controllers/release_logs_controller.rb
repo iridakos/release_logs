@@ -28,7 +28,7 @@ class ReleaseLogsController < ReleaseLogsBaseController
   end
 
   def create
-    @release_log = ReleaseLog.new params[:release_log]
+    @release_log = ReleaseLog.new release_log_params
     save_release_log
   end
 
@@ -57,7 +57,7 @@ class ReleaseLogsController < ReleaseLogsBaseController
   end
 
   def update
-    @release_log.assign_attributes params[:release_log]
+    @release_log.assign_attributes release_log_params
 
     if params[:cancel]
       cancel_release_log
@@ -171,6 +171,29 @@ class ReleaseLogsController < ReleaseLogsBaseController
   end
 
   protected
+
+  def release_log_params
+    if Rails::VERSION::MAJOR >= 4
+      params.require(:release_log).permit(:description,
+                                          :send_email_notification,
+                                          :release_upon_publish,
+                                          :release_date,
+                                          :release_hour,
+                                          :release_minutes,
+                                          :attachments,
+                                          :rollback_reason,
+                                          :cancellation_reason,
+                                          :release_log_entries_attributes => [
+                                            :id,
+                                            :issue_id,
+                                            :release_log_entry_category_id,
+                                            :include_in_notification,
+                                            :note
+                                          ])
+    else
+      params[:release_log]
+    end
+  end
 
   def send_release_log_notification(type)
     message = ReleaseLogMailer.send(:"release_log_#{type}_notification", @release_log)

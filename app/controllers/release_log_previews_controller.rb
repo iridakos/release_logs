@@ -39,6 +39,29 @@ class ReleaseLogPreviewsController < ReleaseLogsBaseController
 
   protected
 
+  def release_log_params
+    if Rails::VERSION::MAJOR >= 4
+      params.require(:release_log).permit(:description,
+                                          :send_email_notification,
+                                          :release_upon_publish,
+                                          :release_date,
+                                          :release_hour,
+                                          :release_minutes,
+                                          :attachments,
+                                          :rollback_reason,
+                                          :cancellation_reason,
+                                          :release_log_entries_attributes => [
+                                            :id,
+                                            :issue_id,
+                                            :release_log_entry_category_id,
+                                            :include_in_notification,
+                                            :note
+                                          ])
+    else
+      params[:release_log]
+    end
+  end
+
   def load_project
     @project = Project.find_by_identifier(params[:project_id])
   end
@@ -52,7 +75,7 @@ class ReleaseLogPreviewsController < ReleaseLogsBaseController
       @release_log = ReleaseLog.new
     end
 
-    @release_log.assign_attributes(params[:release_log])
+    @release_log.assign_attributes release_log_params
     @release_log.attachments = @attachments
     @release_log.project = @project
     @release_log.id ||= 0

@@ -15,7 +15,7 @@ class ReleaseLogQueuesController < ReleaseLogsBaseController
   end
 
   def create
-    @release_log_queue = ReleaseLogQueue.new(params[:release_log_queue])
+    @release_log_queue = ReleaseLogQueue.new release_log_queue_params
     save_release_log_queue
   end
 
@@ -23,7 +23,7 @@ class ReleaseLogQueuesController < ReleaseLogsBaseController
   end
 
   def update
-    @release_log_queue.assign_attributes params[:release_log_queue]
+    @release_log_queue.assign_attributes release_log_queue_params
     save_release_log_queue
   end
 
@@ -34,6 +34,14 @@ class ReleaseLogQueuesController < ReleaseLogsBaseController
   end
 
   protected
+
+  def release_log_queue_params
+    if Rails::VERSION::MAJOR >= 4
+      params.require(:release_log_queue).permit(:name, :title_template, :group_by_issue_type, :email_notification_recipients, :release_log_entry_categories_attributes => [:id, :title, :_destroy])
+    else
+      params[:release_log_queue]
+    end
+  end
 
   def load_release_log_queue
     @release_log_queue = ReleaseLogQueue.find(params[:id])

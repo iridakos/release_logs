@@ -9,10 +9,10 @@ Release logs is a [redmine](http://redmine.org) plugin that helps you keep track
 * you **release** your projects continuously (ex. in a weekly basis)
 * you want to **keep track of when an issue was released/rolled back/cancelled** and which other issues were also released at that release
 * you want to **send notifications to your colleagues** about the release status
- 
+
 ## Redmine support
 
-* The plugin is working for redmine versions **2.5.x** & **2.6.x**
+* The plugin is working for redmine versions **3.x**, **2.5.x** & **2.6.x**
 
 ## Getting started
 

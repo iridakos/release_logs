@@ -68,7 +68,12 @@ module ReleaseLogs
       def execute(offset = nil, limit = nil)
         return [] unless self.valid?
 
-        scope = ReleaseLog.select('DISTINCT release_logs.*')
+        scope = if Rails::VERSION::MAJOR >= 4
+                  ReleaseLog.distinct
+                else
+                  ReleaseLog.select('DISTINCT release_logs.*')
+                end
+
         term = query_term.present? ? "%#{query_term}%" : nil
 
         if term.present?

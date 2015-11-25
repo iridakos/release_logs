@@ -174,7 +174,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
 
   def release_log_params
     if Rails::VERSION::MAJOR >= 4
-      params.require(:release_log).permit(:description,
+      params.require(:release_log).permit(:title,
+                                          :description,
                                           :send_email_notification,
                                           :release_upon_publish,
                                           :release_date,

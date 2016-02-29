@@ -12,7 +12,7 @@ class ReleaseLogQueue < ActiveRecord::Base
       :day => lambda { |date| date.strftime('%d') },
       :day_short_name => lambda { |date| date.strftime('%a') },
       :day_name => lambda { |date| date.strftime('%A') },
-      :week => lambda { |date| (date.strftime('%W').to_i + 1).to_s.rjust(2, '0') }
+      :week => lambda { |date| date.strftime('%W').rjust(2, '0') }
   }.freeze
 
   PROJECT_INTERPOLATIONS = {

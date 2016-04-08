@@ -67,7 +67,7 @@ jQuery(document).ready(function () {
             {
                 select: function (event, object) {
                     var $noteElement = $('#new_release_log_entry_note_' + counter);
-                    $noteElement.val('h4. ' + object.item.label + '\n\n' + $noteElement.val());
+                    $noteElement.val(object.item.label + '\n\n' + $noteElement.val());
                 }
             }
         );
@@ -87,7 +87,7 @@ jQuery(document).ready(function () {
             {
                 select: function (event, object) {
                     var $noteElement = $('#new_release_log_entry_note_' + $element.data('index'));
-                    $noteElement.val('h4. ' + object.item.label + '\n\n' + $noteElement.val());
+                    $noteElement.val(object.item.label + '\n\n' + $noteElement.val());
                 }
             }
         );

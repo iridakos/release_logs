@@ -1,4 +1,4 @@
-<% if project.present? && project.release_log_enabled? && issue.present? %>
+<% if ReleaseLogEntry.for_issue(issue).count > 0 %>
     <hr />
     <p>
         <strong><%= release_logs_label_for(:release_log) %></strong>

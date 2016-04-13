@@ -5,7 +5,7 @@ zh:
   field_send_email_notification: "发送邮件通知"
   field_release_log_queue: "队列"
   field_title_template: "标题模板"
-  field_released_at: "发布日期"
+  field_released_at: "版本发布日期"
   field_rollback_reason: "回退原因"
   field_cancellation_reason: "取消原因"
   field_release_log_release_log_entries: "发布条目类别"
@@ -14,7 +14,7 @@ zh:
   field_release_log_entry_note: "备注"
   field_query_term: "关键字："
   field_query_term_scope: "关键字位于："
-  field_release_log_status: "发布状态"
+  field_release_log_status: "版本发布状态"
   field_temporal_type: "操作类型："
   field_temporal_from: "开始日期："
   field_temporal_to: "截止日期："
@@ -26,8 +26,8 @@ zh:
 
   release_logs_label_everywhere: "任意位置"
   release_logs_label_query_term_in_issue: "问题标题或描述"
-  release_logs_label_query_term_release_log_title: "发布主题"
-  release_logs_label_query_term_in_release_log_description: "发布说明"
+  release_logs_label_query_term_release_log_title: "版本发布主题"
+  release_logs_label_query_term_in_release_log_description: "版本发布说明"
   release_logs_label_query_term_in_release_log_notes: "发布条目备注"
 
   release_logs_label_draft: "草稿"
@@ -43,22 +43,22 @@ zh:
   release_logs_label_all: "全部"
   release_logs_label_any: "任意"
 
-  release_logs_label_release_log: "发布日志信息"
-  release_logs_label_release_logs: "发布日志信息"
-  release_logs_label_search_release_logs: "发布信息查询 "
+  release_logs_label_release_log: "版本发布日志信息"
+  release_logs_label_release_logs: "版本发布日志信息"
+  release_logs_label_search_release_logs: "版本发布信息查询 "
   release_logs_label_search: "搜索"
 
-  release_logs_label_configuration_created: "项目 %{project} 的发布通知已创建。"
-  release_logs_label_configuration_updated: "项目 %{project} 的发布通知已更新。"
+  release_logs_label_configuration_created: "项目 %{project} 的版本发布通知已创建。"
+  release_logs_label_configuration_updated: "项目 %{project} 的版本发布通知已更新。"
   release_logs_label_configuration_destroyed: "项目 %{project} 的发布通知已删除。"
-  release_logs_label_queue_created: "名为 %{queue_name} 的发布队列已创建。"
-  release_logs_label_queue_updated: "名为 %{queue_name} 的发布队列已更新。"
-  release_logs_label_queue_deleted: "名为 %{queue_name} 的发布队列已删除。"
+  release_logs_label_queue_created: "名为 %{queue_name} 的版本发布队列已创建。"
+  release_logs_label_queue_updated: "名为 %{queue_name} 的版本发布队列已更新。"
+  release_logs_label_queue_deleted: "名为 %{queue_name} 的版本发布队列已删除。"
 
-  release_logs_label_release_log_created: "您在项目 %{project} 中创建了名为 '%{title}' 的发布信息"
-  release_logs_label_release_log_published: "项目 %{project} 中名为 '%{title}' 的发布信息已发布。"
-  release_logs_label_release_log_updated: "项目 %{project} 中名为 '%{title}' 的发布信息已更新。"
-  release_logs_label_release_log_deleted: "项目 %{project} 的发布信息已删除。"
+  release_logs_label_release_log_created: "您在项目 %{project} 中创建了名为 '%{title}' 的版本发布信息"
+  release_logs_label_release_log_published: "项目 %{project} 中名为 '%{title}' 的版本发布信息已发布。"
+  release_logs_label_release_log_updated: "项目 %{project} 中名为 '%{title}' 的版本发布信息已更新。"
+  release_logs_label_release_log_deleted: "项目 %{project} 的版本发布信息已删除。"
 
   release_logs_label_notification_failed: "无法发送通知，请尝试重发。"
 
@@ -68,17 +68,17 @@ zh:
   release_logs_label_release_log_entry_categories: "条目类别"
   release_logs_label_miscellaneous: "其他内容"
 
-  release_logs_label_successful_rollback: "您已回退了名为 '%{title}' 的发布。"
-  release_logs_label_successful_cancellation: "您已取消了名为 '%{title}' 的发布。"
+  release_logs_label_successful_rollback: "您已回退了名为 '%{title}' 的版本发布。"
+  release_logs_label_successful_cancellation: "您已取消了名为 '%{title}' 的版本发布。"
 
-  release_logs_label_no_configuration: "项目 '%{project}' 中尚未提供发布配置。"
-  release_logs_label_disabled_configuration: "项目 '%{project}' 中的发布配置已禁用。"
+  release_logs_label_no_configuration: "项目 '%{project}' 中尚未提供版本发布配置。"
+  release_logs_label_disabled_configuration: "项目 '%{project}' 中的版本发布配置已禁用。"
 
   release_logs_label_query: "查询配置"
   release_logs_label_action: "发布操作"
   release_logs_label_project_scope: "项目范围"
   release_logs_label_scope: "范围定义"
-  release_logs_label_no_results_found: "查询结果中没有找到对应的发布信息。"
+  release_logs_label_no_results_found: "查询结果中没有找到对应的版本发布信息。"
 
   release_logs_label_release_log_status_cancelled: "已取消"
   release_logs_label_release_log_status_rolled_back: "已回退"
@@ -94,20 +94,20 @@ zh:
   release_logs_label_issue_rollback_failed_release: "但发布最终 <strong>回退</strong>"
   release_logs_label_issue_cancel_failed_release: "但发布最终 <strong>取消</strong>"
 
-  release_logs_label_edit_configuration: "编辑 <strong>%{project}</strong> 项目发布情况通知配置"
+  release_logs_label_edit_configuration: "编辑【%{project}】项目发布情况通知配置"
   release_logs_label_new_configuration: "新建发布通知配置"
-  release_logs_label_new_release_log: "新建发布通知"
-  release_logs_label_configurations: "发布配置"
-  release_logs_label_configurations_index_subtitle: "管理发布通知的相关配置信息。"
+  release_logs_label_new_release_log: "新建版本发布通知"
+  release_logs_label_configurations: "版本发布配置"
+  release_logs_label_configurations_index_subtitle: "管理版本发布通知的相关配置信息。"
 
-  release_logs_label_properties: "属性配置"
-  release_logs_label_release_plan: "发布计划"
-  release_logs_label_plan_publish: "发布工作从提交后，即刻开始"
-  release_logs_label_plan_future: "发布工作开始始于"
+  release_logs_label_properties: "版本发布属性配置"
+  release_logs_label_release_plan: "版本发布计划"
+  release_logs_label_plan_publish: "版本发布工作从提交后，即刻开始"
+  release_logs_label_plan_future: "版本发布工作开始始于"
   release_logs_label_attachments: "附件"
   release_logs_label_time: "时刻"
   release_logs_label_files: "文件"
-  release_logs_label_issue: "问题 ID"
+  release_logs_label_issue: "ID"
   release_logs_label_name: "名称"
   release_logs_label_note: "条目内容说明"
   release_logs_label_description: "说明"
@@ -130,17 +130,17 @@ zh:
   release_logs_label_subject: "发布通知主题"
   release_logs_label_sent_at: "发送时间"
 
-  release_logs_label_send_publish: "发送发布通知"
-  release_logs_label_send_success: "发送发布完成通知"
-  release_logs_label_send_rollback: "发送发布回退通知"
-  release_logs_label_send_cancel: "发送发布取消通知"
-  release_logs_label_notifications: "发布通知"
-  release_logs_label_no_notifications_sent: "当前发布未发送通知。"
+  release_logs_label_send_publish: "发送版本发布预告"
+  release_logs_label_send_success: "发送版本发布完成通告"
+  release_logs_label_send_rollback: "发送版本发布回退通告"
+  release_logs_label_send_cancel: "发送版本发布取消通告"
+  release_logs_label_notifications: "版本发布通知"
+  release_logs_label_no_notifications_sent: "当前版本发布未发送通知。"
 
-  release_logs_label_release_cancellation_notification: "发布取消通知"
-  release_logs_label_release_publish_notification: "新建发布通知"
-  release_logs_label_release_rollback_notification: "发布回退通知"
-  release_logs_label_release_success_notification: "发布完成通知"
+  release_logs_label_release_cancellation_notification: "【通告】发布版本已取消！"
+  release_logs_label_release_publish_notification: "【通告】版本即将发布！"
+  release_logs_label_release_rollback_notification: "【通告】发布版本已回退！"
+  release_logs_label_release_success_notification: "【通告】版本已发布完成！"
   release_logs_label_created_by: "由用户 %{creator} "
   release_logs_label_published_by: "由用户 %{publisher}"
   release_logs_label_cancelled_by: "由用户 %{canceller}"
@@ -156,13 +156,13 @@ zh:
   release_logs_label_date_on: "于 %{date}"
   release_logs_label_shortly: "即刻"
 
-  release_logs_label_release_cancellation_message: "【<strong>%{project_name}</strong>】项目中配置的发布<strong>%{release_identifier}</strong>已于 <strong>%{date}</strong>被用户<strong>%{user}</strong>取消。"
-  release_logs_label_release_rollback_message: "【<strong>%{project_name}</strong>】项目中配置的发布<strong>%{release_identifier}</strong>已于<strong>%{date}</strong>被用户<strong>%{user}</strong>回退处理。"
-  release_logs_label_release_publish_message: "【<strong>%{project_name}</strong>】项目中配置的发布<strong>%{release_identifier}</strong>将于<strong>%{date}</strong>启动。"
-  release_logs_label_release_success_message: "【<strong>%{project_name}</strong>】项目中配置的发布<strong>%{release_identifier}</strong>已完成！ "
+  release_logs_label_release_cancellation_message: "【<strong>%{project_name}</strong>】项目中的版本发布<strong>%{release_identifier}</strong>已于 <strong>%{date}</strong>被用户<strong>%{user}</strong>取消。"
+  release_logs_label_release_rollback_message: "【<strong>%{project_name}</strong>】项目中的版本发布<strong>%{release_identifier}</strong>已于<strong>%{date}</strong>被用户<strong>%{user}</strong>回退处理。"
+  release_logs_label_release_publish_message: "【<strong>%{project_name}</strong>】项目中的版本发布<strong>%{release_identifier}</strong>将于<strong>%{date}</strong>启动。"
+  release_logs_label_release_success_message: "【<strong>%{project_name}</strong>】项目中的版本发布<strong>%{release_identifier}</strong>已完成！ "
 
   release_logs_label_edit_queue: "修改发布队列 %{queue}"
-  release_logs_label_edit_release_log: "修改发布日志 %{release_identifier}"
+  release_logs_label_edit_release_log: "修改版本发布信息 %{release_identifier}"
   release_logs_label_index_queue: "发布队列"
   release_logs_label_index_queue_subtitle: "管理发布队列"
   release_logs_label_confirm_queue_delete: "确定删除 '%{queue}' 队列 ？"
@@ -176,15 +176,15 @@ zh:
   release_logs_label_add_new: "新建"
   release_logs_label_save: "保存"
   release_logs_label_close: "关闭"
-  release_logs_label_save_publish: "保存并立即发布"
+  release_logs_label_save_publish: "保存并发送版本发布预告"
 
   release_logs_label_warning: "发布日志 - 警告"
   release_logs_label_admin_warning: "请联系您的 Redmine 系统管理员。"
 
-  release_logs_label_no_project_log_results: "%{project_name} 项目中暂无发布信息。"
-  release_logs_label_no_release_logs_results: "当前没有发布信息。"
+  release_logs_label_no_project_log_results: "%{project_name} 项目中暂无版本发布信息。"
+  release_logs_label_no_release_logs_results: "当前没有版本发布信息。"
 
-  release_logs_release_notifications: "发布通知"
+  release_logs_release_notifications: "版本发布通知"
 
   # Help text
   release_logs_help_configuration_recipients: "设置多个通知收件人，请使用半角逗号【,】隔开。"
@@ -211,7 +211,7 @@ zh:
     errors:
       models:
         release_log:
-          unique_issues: "发布信息中所列条目必须唯一，不能重复！"
+          unique_issues: "版本发布信息中所列条目必须唯一，不能重复！"
     models:
       release_log_entry:
         one: '发布条目'

@@ -18,7 +18,7 @@
         </tr>
 
         <tr>
-            <th><%= release_logs_label_for(:id) %></th>
+            <th><%= release_logs_label_for(:queue) %></th>
             <% if all_mode %>
                 <th><%= release_logs_label_for(:project) %></th>
             <% end %>
@@ -38,7 +38,7 @@
 
             <tr>
                 <td class="release-log-id">
-                    <strong><%= link_to release_log.id, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
+                    <strong><%= link_to release_log.release_log_queue.name, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
                 </td>
 
                 <% if all_mode %>

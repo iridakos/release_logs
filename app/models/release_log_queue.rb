@@ -32,9 +32,9 @@ class ReleaseLogQueue < ActiveRecord::Base
             :length => { :maximum => 255 },
             :uniqueness => true
 
-  validates :title_template, :presence => true, :length => { :maximum => 255 }
+  validates :title_template, :length => { :maximum => 255 }
 
-  validates :email_notification_recipients, :presence => true, :multiple_email_addresses => true
+  validates :email_notification_recipients, :multiple_email_addresses => true
 
   validate :title_template_syntax
 

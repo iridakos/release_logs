@@ -9,7 +9,7 @@ class ReleaseLogConfiguration < ActiveRecord::Base
   scope :enabled, lambda { where(:enabled => true) }
   scope :for_project, lambda { |project_id| where(:project_id => project_id) }
 
-  validates :project_id, :presence => true, :uniqueness => true
+  validates :project_id, :presence => true, :uniqueness => { scope: :release_log_queue_id }
   validates :email_notification_recipients, :presence => { :unless => 'release_log_queue_id.present?' }, :multiple_email_addresses => true
 
   def enabled?

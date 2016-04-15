@@ -25,7 +25,7 @@ class ReleaseLog < ActiveRecord::Base
   acts_as_attachable :view_permission => :view_project_release_logs,
                      :delete_permission => :manage_project_release_logs
 
-  before_save :assign_to_release_log_queue
+  #before_save :assign_to_release_log_queue
 
   ### Scopes ###
   scope :for_project, lambda { |project| where(:project_id => project.id) }
@@ -86,6 +86,7 @@ class ReleaseLog < ActiveRecord::Base
   validates :release_log_entries, :association_count => { :minimum => 1 }
   validates :rollback_reason, :presence => { :if => 'rolled_back_at.present?' }
   validates :cancellation_reason, :presence => { :if => 'cancelled_at.present?' }
+  validate :release_log_queue_id
   validate :unique_issues
 
   def created_on
@@ -141,10 +142,10 @@ class ReleaseLog < ActiveRecord::Base
 
   protected
 
-  def assign_to_release_log_queue
-    proj = self.project || Project.find(self.project_id)
-    self.release_log_queue_id = proj.release_log_configuration.release_log_queue.id if proj.release_log_configuration.present? && proj.release_log_configuration.release_log_queue.present?
-  end
+  # def assign_to_release_log_queue
+  #   proj = self.project || Project.find(self.project_id)
+  #   self.release_log_queue_id = proj.release_log_configuration.release_log_queue.id if proj.release_log_configuration.present? && proj.release_log_configuration.release_log_queue.present?
+  # end
 
   def unique_issues
     issues = release_log_entries.select{ |entry| !entry.marked_for_destruction? }.map(&:issue_id).compact

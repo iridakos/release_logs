@@ -11,6 +11,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
   before_filter :load_project
   before_filter :authorize
   before_filter :load_configuration
+  before_filter :load_dependencies
+  before_filter :load_versions
   before_filter :load_release_log, :only => [:edit, :show, :update, :destroy, :clone, :send_notification]
 
   def index
@@ -116,7 +118,7 @@ class ReleaseLogsController < ReleaseLogsBaseController
       release_log_entry.release_log = @release_log
     end
 
-    @release_log.title = @release_log.queue_title_for_release_log if @project.queue_release_log_enabled?
+    @release_log.title = @release_log.queue_title_for_release_log if @release_log.release_log_queue and @release_log.release_log_queue.title_template?
 
     if should_publish
       @release_log.publish(User.current)
@@ -176,6 +178,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
     if Rails::VERSION::MAJOR >= 4
       params.require(:release_log).permit(:title,
                                           :description,
+                                          :release_log_queue_id,
+                                          :version_id,
                                           :send_email_notification,
                                           :release_upon_publish,
                                           :release_date,
@@ -226,6 +230,14 @@ class ReleaseLogsController < ReleaseLogsBaseController
     unless @release_log_configuration.enabled?
       render :error , :locals => { :message => release_logs_label_for(:disabled_configuration, :project => @project.name) }
     end
+  end
+
+  def load_dependencies
+    @release_log_queues = ReleaseLogQueue.joins('RIGHT JOIN release_log_configurations ON release_log_configurations.release_log_queue_id=release_log_queues.id').where('release_log_configurations.enabled = 1 AND release_log_configurations.project_id = :project', :project => @project.id)
+  end
+
+  def load_versions
+    @versions = @project.shared_versions.where(:status => ['open', 'locked'])
   end
 
   def load_release_log

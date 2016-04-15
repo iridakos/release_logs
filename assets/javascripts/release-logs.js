@@ -36,6 +36,25 @@ jQuery(document).ready(function () {
         }
     };
 
+    var setFieldVisibility = function () {
+        var $title_template = $('#release_log_release_log_queue_id option:selected').data('title-template');
+        if ($title_template) {
+            $('#release_log_title').parent('p').hide();
+            if ($title_template.indexOf('{{version}}') >= 0) {
+                $('#release_log_version_id').parent('p').show();
+            }
+            else {
+                $('#release_log_version_id').parent('p').hide();
+            }
+        }
+        else {
+            $('#release_log_title').parent('p').show();
+            $('#release_log_version_id').parent('p').hide();
+        }
+    };
+
+    setFieldVisibility();
+
     $('#add-new-release-log').on('click', function (event) {
         event.preventDefault();
 
@@ -143,5 +162,11 @@ jQuery(document).ready(function () {
         var $container = $('#release_preview_log_container');
         $container.find('.preview-content').html('');
         $container.hide();
+    });
+
+    $('#release_log_release_log_queue_id').on('change', function (event) {
+        event.preventDefault();
+
+        setFieldVisibility();
     });
 });

@@ -128,7 +128,8 @@ class ReleaseLog < ActiveRecord::Base
 
   def queue_title_for_release_log
     date = release_upon_publish ? DateTime.now : (released_at.presence || DateTime.now)
-    project.release_log_configuration.release_log_queue.generate_title(project, date)
+    version = Version.find(version_id) if version_id?
+    ReleaseLogQueue.find(release_log_queue_id).generate_title(project, date, version)
   end
 
   def publish(user)

@@ -19,6 +19,10 @@ class ReleaseLogQueue < ActiveRecord::Base
       :project_name => lambda { |project| project.name }
   }.freeze
 
+  VERSION_INTERPOLATIONS = {
+      :version => lambda { |version| version.name }
+   }.freeze
+
   has_many :release_log_entry_categories, :dependent => :destroy, :inverse_of => :release_log_queue
   has_many :release_log_notifications, :dependent => :nullify, :inverse_of => :release_log_queue
   has_many :release_logs, :dependent => :nullify, :inverse_of => :release_log_queue
@@ -38,7 +42,7 @@ class ReleaseLogQueue < ActiveRecord::Base
 
   validate :title_template_syntax
 
-  def generate_title(project = Project.new(:name => 'TestProject'), date = Date.today)
+  def generate_title(project = Project.new(:name => 'TestProject'), date = Date.today, version = Version.new(:name => 'TestVersion'))
     return nil unless title_template.present?
 
     title = DATE_INTERPOLATIONS.to_a.inject(title_template) do |title, interpolation|
@@ -47,6 +51,10 @@ class ReleaseLogQueue < ActiveRecord::Base
 
     PROJECT_INTERPOLATIONS.to_a.inject(title) do |title, interpolation|
       title.gsub("{{#{interpolation[0]}}}", interpolation[1].call(project))
+    end
+
+    VERSION_INTERPOLATIONS.to_a.inject(title) do |title, interpolation|
+      title.gsub("{{#{interpolation[0]}}}", interpolation[1].call(version))
     end
   end
 

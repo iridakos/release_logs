@@ -16,11 +16,19 @@
         <legend><strong><%= release_logs_label_for(:properties) %></strong></legend>
 
         <div class="tabular">
-            <% unless @project.release_log_enabled? && @project.release_log_configuration.release_log_queue.present? %>
-                <p>
-                    <%= form.text_field :title, :required => true, :class => 'wide' %>
-                </p>
-            <% end %>
+            <p>
+                <%= form.text_field :title, :required => true, :class => 'wide' %>
+            </p>
+
+            <p>
+                <%= form.select :version_id,
+                         options_from_collection_for_select(@versions, :id, :name, release_log.version_id) %>
+            </p>
+
+            <p>
+                <%= form.select :release_log_queue_id,
+                         options_from_collection_for_select_with_attributes(@release_log_queues, :id, :name, 'data-title-template', :title_template, release_log.release_log_queue_id) %>
+            </p>
 
             <p>
                 <%= form.text_area :description,

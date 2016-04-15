@@ -1,4 +1,5 @@
 class ReleaseLogQueuesController < ReleaseLogsBaseController
+  layout 'admin'
   unloadable
 
   include ReleaseLogsHelper

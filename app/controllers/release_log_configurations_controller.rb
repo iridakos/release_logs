@@ -1,6 +1,7 @@
 class ReleaseLogConfigurationsController < ReleaseLogsBaseController
   include ReleaseLogsHelper
 
+  layout 'admin'
   unloadable
 
   helper :release_logs

@@ -65,7 +65,7 @@
                            :no_label => true %>
             <%= select_tag :release_minutes,
                            options_for_select(
-                                   (0..59).to_a.map { |minute| [minute.to_s.rjust(2, '0'), minute] },
+                                   (0..59).step(5).map { |minute| [minute.to_s.rjust(2, '0'), minute] },
                                    :selected => released_at.try(:min)),
                            :include_blank => true,
                            :no_label => true %>

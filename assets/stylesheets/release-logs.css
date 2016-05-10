@@ -10,6 +10,8 @@ td.release-log-entry-note-column { text-align: justify !important; }
 .release-log-entry-field-container .splitcontentleft { width: 30% !important; }
 .release-log-entry-field-container .splitcontentright { width: 68% !important; }
 
+.release-log-hotfix { color: #ff8000; }
+
 .release-log-action-container { display: none; margin-top: 60px; clear: both;}
 .preview-release-log { margin-left: 10px; }
 #release_preview_log_container { display: none; margin-top: 20px; }

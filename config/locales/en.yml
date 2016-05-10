@@ -13,6 +13,7 @@ en:
   field_release_log_entry_category: "Release log category"
   field_release_log_entry_note: "Note"
   field_query_term: "Term"
+  field_hotfix: "This is a hotfix release"
   field_query_term_scope: "Term in"
   field_release_log_status: "Release log status"
   field_temporal_type: "Action"
@@ -47,6 +48,9 @@ en:
   release_logs_label_release_logs: "Release logs"
   release_logs_label_search_release_logs: "Search release logs"
   release_logs_label_search: "Search"
+
+  release_logs_label_hotfix: "Hotfix"
+  release_logs_label_hotfix_title: "This is a hotfix release."
 
   release_logs_label_configuration_created: "The release log notification for project %{project} was created successfully."
   release_logs_label_configuration_updated: "The release log notification for project %{project} was updated successfully."

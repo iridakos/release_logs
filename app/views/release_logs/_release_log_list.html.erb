@@ -38,7 +38,7 @@
 
             <tr>
                 <td class="release-log-id">
-                    <strong><%= link_to release_log.release_log_queue.name, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
+                    <strong><%= link_to release_log.release_log_queue.nil? ? release_log.id : release_log.release_log_queue.name, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
                 </td>
 
                 <% if all_mode %>

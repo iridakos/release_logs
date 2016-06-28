@@ -104,7 +104,11 @@ class ReleaseLogsController < ReleaseLogsBaseController
     should_publish = params[:publish] && !@release_log.published?
 
     unless params[:release_date].blank? || params[:release_hour].blank? || params[:release_minutes].blank?
-      release_date = Date.parse(params[:release_date]).in_time_zone
+      if Rails::VERSION::MAJOR >= 4
+        release_date = Date.parse(params[:release_date]).in_time_zone
+      else
+        release_date = Date.parse(params[:release_date]).to_time_in_current_zone
+      end
       release_date = User.current.time_zone.present? ? release_date.in_time_zone(User.current.time_zone) : (release_date.utc? ? release_date.localtime : release_date)
       release_date = release_date.change(:hour => params[:release_hour].to_i, :min => params[:release_minutes].to_i)
       @release_log.released_at = release_date
@@ -237,7 +241,10 @@ class ReleaseLogsController < ReleaseLogsBaseController
   end
 
   def load_versions
-    @versions = @project.shared_versions.where(:status => ['open', 'locked'])
+    # Small bug here, either all versions are loaded, or only open version are loaded
+    # If only open versions are loaded, on edit if the edited version is not open, it is changed
+    #@versions = @project.shared_versions.where(:status => ['open', 'locked'])
+    @versions = @project.shared_versions
   end
 
   def load_release_log

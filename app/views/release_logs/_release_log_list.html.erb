@@ -39,6 +39,12 @@
             <tr>
                 <td class="release-log-id">
                     <strong><%= link_to release_log.release_log_queue.nil? ? release_log.id : release_log.release_log_queue.name, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
+                    <% if release_log.hotfix %>
+                        <span class="release-log-hotfix">
+                            <br />
+                            (<%= release_logs_label_for(:hotfix) %>)
+                        </span>
+                    <% end %>
                 </td>
 
                 <% if all_mode %>

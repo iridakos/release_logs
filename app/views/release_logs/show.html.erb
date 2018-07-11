@@ -8,6 +8,10 @@
 
 <h2><%= @release_log.title %> <%= if !@release_log.release_log_queue.nil? then ['-',@release_log.release_log_queue.name].join(' ') end %> - <%= @release_log.status.titleize %></h2>
 
+<% if @release_log.hotfix %>
+    <h3><span style="color: #ff8000;"><%= release_logs_label_for(:hotfix_title) %></span></h3>
+<% end %>
+
 <div class="details">
     <% if can_manage %>
         <div class="contextual">

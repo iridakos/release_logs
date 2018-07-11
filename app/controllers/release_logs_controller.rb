@@ -46,7 +46,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
                                   :description => release_log.description,
                                   :send_email_notification => release_log.send_email_notification,
                                   :release_upon_publish => release_log.release_upon_publish,
-                                  :released_at => release_log.released_at
+                                  :released_at => release_log.released_at,
+                                  :hotfix => release_log.hotfix
 
     @release_log.release_log_entries =  release_log.release_log_entries.map do |entry|
       ReleaseLogEntry.new :issue_id => entry.issue_id,

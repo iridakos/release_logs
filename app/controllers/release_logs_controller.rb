@@ -186,6 +186,7 @@ class ReleaseLogsController < ReleaseLogsBaseController
                                           :release_log_queue_id,
                                           :version_id,
                                           :send_email_notification,
+                                          :hotfix,
                                           :release_upon_publish,
                                           :release_date,
                                           :release_hour,

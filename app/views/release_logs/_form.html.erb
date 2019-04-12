@@ -63,7 +63,7 @@
 
             <% released_at = (User.current.time_zone.present? ? @release_log.released_at.in_time_zone(User.current.time_zone) : (@release_log.released_at.utc? ? @release_log.released_at.localtime : @release_log.released_at)) if @release_log.released_at.present? %>
 
-            <%= text_field_tag :release_date,
+            <%= date_field_tag :release_date,
                                released_at.try(:to_date),
                                :no_label => true %>
             <%= calendar_for('release_date') %>

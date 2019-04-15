@@ -16,11 +16,23 @@
         <legend><strong><%= release_logs_label_for(:properties) %></strong></legend>
 
         <div class="tabular">
-            <% unless @project.release_log_enabled? && @project.release_log_configuration.release_log_queue.present? %>
-                <p>
-                    <%= form.text_field :title, :required => true, :class => 'wide' %>
-                </p>
-            <% end %>
+            <p>
+                <%= form.text_field :title, :required => true, :class => 'wide' %>
+            </p>
+
+            <p>
+                <%= form.select :version_id,
+                         options_from_collection_for_select(@versions, :id, :name, release_log.version_id) %>
+            </p>
+
+            <p>
+                <%= form.select :release_log_queue_id,
+                         options_from_collection_for_select_with_attributes(@release_log_queues, :id, :name, 'data-title-template', :title_template, release_log.release_log_queue_id) %>
+            </p>
+
+            <p>
+                <%= form.check_box :hotfix %>
+            </p>
 
             <p>
                 <%= form.text_area :description,
@@ -51,7 +63,7 @@
 
             <% released_at = (User.current.time_zone.present? ? @release_log.released_at.in_time_zone(User.current.time_zone) : (@release_log.released_at.utc? ? @release_log.released_at.localtime : @release_log.released_at)) if @release_log.released_at.present? %>
 
-            <%= text_field_tag :release_date,
+            <%= date_field_tag :release_date,
                                released_at.try(:to_date),
                                :no_label => true %>
             <%= calendar_for('release_date') %>

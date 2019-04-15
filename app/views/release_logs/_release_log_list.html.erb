@@ -18,7 +18,7 @@
         </tr>
 
         <tr>
-            <th><%= release_logs_label_for(:id) %></th>
+            <th><%= release_logs_label_for(:queue) %></th>
             <% if all_mode %>
                 <th><%= release_logs_label_for(:project) %></th>
             <% end %>
@@ -38,7 +38,13 @@
 
             <tr>
                 <td class="release-log-id">
-                    <strong><%= link_to release_log.id, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
+                    <strong><%= link_to release_log.release_log_queue.nil? ? release_log.id : release_log.release_log_queue.name, release_log_path(release_log, :project_id => release_log.project.identifier) %></strong>
+                    <% if release_log.hotfix %>
+                        <span class="release-log-hotfix">
+                            <br />
+                            (<%= release_logs_label_for(:hotfix) %>)
+                        </span>
+                    <% end %>
                 </td>
 
                 <% if all_mode %>
@@ -104,4 +110,4 @@
     </tbody>
 </table>
 
-<p class="pagination"><%= pagination_links_full @release_log_pages, @release_log_count %></p>
+<span class="pagination"><%= pagination_links_full @release_log_pages, @release_log_count %></span>

@@ -5,6 +5,6 @@
     <%= format_time release_log.released_at %>
     <%= issue_failed_release_info(release_log).html_safe %> -
     <strong>
-        <%= link_to release_log.title, release_log_path(release_log, :project_id => release_log.project.identifier), :target => '_blank' %>
+        <%= link_to [release_log.title, release_log.release_log_queue.name].join(' - '), release_log_path(release_log, :project_id => release_log.project.identifier), :target => '_blank' %>
     </strong>
 </div>

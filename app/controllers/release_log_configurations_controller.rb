@@ -1,6 +1,7 @@
 class ReleaseLogConfigurationsController < ReleaseLogsBaseController
   include ReleaseLogsHelper
 
+  layout 'admin'
   unloadable
 
   helper :release_logs
@@ -53,7 +54,7 @@ class ReleaseLogConfigurationsController < ReleaseLogsBaseController
   end
 
   def load_dependencies
-    @valid_project_selections = Project.all - ReleaseLogConfiguration.all.map(&:project)
+    @valid_project_selections = Project.all
     @release_log_queues = ReleaseLogQueue.all
   end
 

@@ -11,11 +11,11 @@
         </p>
 
         <p>
-            <%= form.text_field :title_template, :required => true %>
+            <%= form.text_field :title_template %>
         </p>
 
         <p>
-            <%= form.text_area :email_notification_recipients, :rows => 5, :required => true %>
+            <%= form.text_area :email_notification_recipients, :rows => 5 %>
             <br />
             <span class="release-log-info">
                 <%= release_logs_help_for(:configuration_recipients)%>

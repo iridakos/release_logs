@@ -11,6 +11,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
   before_filter :load_project
   before_filter :authorize
   before_filter :load_configuration
+  before_filter :load_dependencies
+  before_filter :load_versions
   before_filter :load_release_log, :only => [:edit, :show, :update, :destroy, :clone, :send_notification]
 
   def index
@@ -44,7 +46,8 @@ class ReleaseLogsController < ReleaseLogsBaseController
                                   :description => release_log.description,
                                   :send_email_notification => release_log.send_email_notification,
                                   :release_upon_publish => release_log.release_upon_publish,
-                                  :released_at => release_log.released_at
+                                  :released_at => release_log.released_at,
+                                  :hotfix => release_log.hotfix
 
     @release_log.release_log_entries =  release_log.release_log_entries.map do |entry|
       ReleaseLogEntry.new :issue_id => entry.issue_id,
@@ -102,7 +105,11 @@ class ReleaseLogsController < ReleaseLogsBaseController
     should_publish = params[:publish] && !@release_log.published?
 
     unless params[:release_date].blank? || params[:release_hour].blank? || params[:release_minutes].blank?
-      release_date = Date.parse(params[:release_date]).in_time_zone
+      if Rails::VERSION::MAJOR >= 4
+        release_date = Date.parse(params[:release_date]).in_time_zone
+      else
+        release_date = Date.parse(params[:release_date]).to_time_in_current_zone
+      end
       release_date = User.current.time_zone.present? ? release_date.in_time_zone(User.current.time_zone) : (release_date.utc? ? release_date.localtime : release_date)
       release_date = release_date.change(:hour => params[:release_hour].to_i, :min => params[:release_minutes].to_i)
       @release_log.released_at = release_date
@@ -116,7 +123,7 @@ class ReleaseLogsController < ReleaseLogsBaseController
       release_log_entry.release_log = @release_log
     end
 
-    @release_log.title = @release_log.queue_title_for_release_log if @project.queue_release_log_enabled?
+    @release_log.title = @release_log.queue_title_for_release_log if @release_log.release_log_queue and @release_log.release_log_queue.title_template?
 
     if should_publish
       @release_log.publish(User.current)
@@ -176,7 +183,10 @@ class ReleaseLogsController < ReleaseLogsBaseController
     if Rails::VERSION::MAJOR >= 4
       params.require(:release_log).permit(:title,
                                           :description,
+                                          :release_log_queue_id,
+                                          :version_id,
                                           :send_email_notification,
+                                          :hotfix,
                                           :release_upon_publish,
                                           :release_date,
                                           :release_hour,
@@ -226,6 +236,17 @@ class ReleaseLogsController < ReleaseLogsBaseController
     unless @release_log_configuration.enabled?
       render :error , :locals => { :message => release_logs_label_for(:disabled_configuration, :project => @project.name) }
     end
+  end
+
+  def load_dependencies
+    @release_log_queues = ReleaseLogQueue.joins('RIGHT JOIN release_log_configurations ON release_log_configurations.release_log_queue_id=release_log_queues.id').where('release_log_configurations.enabled = 1 AND release_log_configurations.project_id = :project', :project => @project.id)
+  end
+
+  def load_versions
+    # Small bug here, either all versions are loaded, or only open version are loaded
+    # If only open versions are loaded, on edit if the edited version is not open, it is changed
+    #@versions = @project.shared_versions.where(:status => ['open', 'locked'])
+    @versions = @project.shared_versions
   end
 
   def load_release_log

@@ -8,10 +8,10 @@ class ReleaseLogsController < ReleaseLogsBaseController
   helper :attachments
   helper :release_logs
 
-  before_filter :load_project
-  before_filter :authorize
-  before_filter :load_configuration
-  before_filter :load_release_log, :only => [:edit, :show, :update, :destroy, :clone, :send_notification]
+  before_action :load_project
+  before_action :authorize
+  before_action :load_configuration
+  before_action :load_release_log, :only => [:edit, :show, :update, :destroy, :clone, :send_notification]
 
   def index
     @limit = params[:limit] || DEFAULT_LIMIT
@@ -197,11 +197,28 @@ class ReleaseLogsController < ReleaseLogsBaseController
   end
 
   def send_release_log_notification(type)
-    message = ReleaseLogMailer.send(:"release_log_#{type}_notification", @release_log)
-    message.deliver
+    
+    @release_log_configuration = @release_log.project.release_log_configuration
+    @release_log_queue = @release_log_configuration.release_log_queue
+    recipient_addresses = @release_log_configuration.recipient_addresses
+    recipient_addresses << @release_log_queue.recipient_addresses if @release_log_queue.present?
+    recipient_addresses = recipient_addresses.flatten.uniq
+    logger.info "Recipient Addresses: #{recipient_addresses}"
+    for email in recipient_addresses 
+      found_emails = EmailAddress.where(["address = ?", email.strip])
+      for found_email in found_emails
+        found_users = User.where(["id = ?", found_email.user_id])
+        message = ReleaseLogMailer.send(:"release_log_#{type}_notification", found_users.first, @release_log)
+        message.deliver_later
+      end
+    end
+    #message = ReleaseLogMailer.release_log_successful_release_notification(users.first, @release_log)
+    
+    #ReleaseLogMailer.deliver_release_log_successful_release_notification(@release_log)
+
     notification = @release_log.release_log_notifications.build(:notification_type => type, :sent_at => Time.now)
     notification.release_log_queue_id = @project.release_log_configuration.release_log_queue.id if @project.queue_release_log_enabled?
-    notification.message_id = message.message_id
+    notification.message_id = message.message_id 
     notification.title = @release_log.title
     notification.save!
     true

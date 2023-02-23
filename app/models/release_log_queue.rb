@@ -25,7 +25,7 @@ class ReleaseLogQueue < ActiveRecord::Base
 
   accepts_nested_attributes_for :release_log_entry_categories, :allow_destroy => true
 
-  validates :release_log_entry_categories, :association_count => { :minimum => 1, :unless => 'group_by_issue_type' }
+  validates :release_log_entry_categories, :association_count => { :minimum => 1, :unless => lambda { group_by_issue_type } }
 
   validates :name,
             :presence => true,

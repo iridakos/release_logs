@@ -4,7 +4,7 @@ class ReleaseLogsBaseController < ApplicationController
 
   helper :application
 
-  before_filter :set_title
+  before_action :set_title
 
   protected
 

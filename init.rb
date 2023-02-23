@@ -1,6 +1,6 @@
 require 'monkey/patcher'
 
-ActionDispatch::Callbacks.to_prepare do
+ActiveSupport::Reloader.to_prepare do
   ReleaseLogs::Patcher.register_patches
 end
 

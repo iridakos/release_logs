@@ -5,9 +5,9 @@ class ReleaseLogConfigurationsController < ReleaseLogsBaseController
 
   helper :release_logs
 
-  before_filter :authorize_global
-  before_filter :load_configuration, :only => [:edit, :update, :destroy]
-  before_filter :load_dependencies, :only => [:new, :edit]
+  before_action :authorize_global
+  before_action :load_configuration, :only => [:edit, :update, :destroy]
+  before_action :load_dependencies, :only => [:new, :edit]
 
   def index
     @release_log_configurations = ReleaseLogConfiguration.all

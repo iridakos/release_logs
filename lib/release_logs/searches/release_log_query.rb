@@ -54,13 +54,13 @@ module ReleaseLogs
                 :inclusion => RELEASE_LOG_STATUSES,
                 :allow_blank => true
 
-      validates :query_project, :presence => { :if => 'query_project_and_subprojects == "true"' }
+      validates :query_project, :presence => { :if => lambda { query_project_and_subprojects == "true" } }
 
-      validates :temporal_type, :presence => { :if => 'temporal_to.present? || temporal_from.present?'}
+      validates :temporal_type, :presence => { :if => lambda { temporal_to.present? || temporal_from.present? } }
 
-      validates :temporal_from, :presence => { :if => 'temporal_type.present? && !temporal_to.present?'}
+      validates :temporal_from, :presence => { :if => lambda { temporal_type.present? && !temporal_to.present? } }
 
-      validates :temporal_to, :presence => { :if => 'temporal_type.present? && !temporal_from.present?'}
+      validates :temporal_to, :presence => { :if => lambda { temporal_type.present? && !temporal_from.present? } }
 
       def to_key
       end

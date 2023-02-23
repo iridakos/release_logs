@@ -7,7 +7,7 @@ class ReleaseLogsHomeController < ReleaseLogsBaseController
 
   helper :release_logs
 
-  before_filter :authorize_global
+  before_action :authorize_global
 
   def index
     @release_logs = ReleaseLog.latest

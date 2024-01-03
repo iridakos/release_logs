@@ -1,15 +1,17 @@
 class ReleaseLogsBaseController < ApplicationController
   include ApplicationHelper
-  unloadable
 
   helper :application
 
-  before_filter :set_title
+  include ReleaseLogsHelper
+  helper ReleaseLogsHelper
+
+  before_action :set_title
 
   protected
 
   def set_title
-    html_title release_logs_label_for(:release_logs)
+    html_title helpers.release_logs_label_for(:release_logs)
   end
 
 end

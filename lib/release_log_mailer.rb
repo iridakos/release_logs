@@ -2,7 +2,7 @@ class ReleaseLogMailer < Mailer
 
   helper :release_logs
 
-  def prepare_mail(release_log)
+  def prepare_mail(user, release_log)
     @release_log = release_log
 
     @release_log_configuration = release_log.project.release_log_configuration
@@ -28,7 +28,8 @@ class ReleaseLogMailer < Mailer
     recipient_addresses << @release_log_queue.recipient_addresses if @release_log_queue.present?
     recipient_addresses = recipient_addresses.flatten.uniq
 
-    mail(:to => recipient_addresses,
+    
+    mail(:to => user,
          :subject => "#{release_log.title} - #{I18n.translate(:release_logs_release_notifications)}") do |format|
       format.html {
         render :text => template
@@ -36,26 +37,26 @@ class ReleaseLogMailer < Mailer
     end
   end
 
-  def release_log_publish_notification(release_log)
-    prepare_mail(release_log) do
+  def release_log_publish_notification(user, release_log)
+    prepare_mail(user, release_log) do
       render_to_string(:template => 'release_log_mailer/release_log_publish_notification')
     end
   end
 
-  def release_log_rollback_notification(release_log)
-    prepare_mail(release_log) do
+  def release_log_rollback_notification(user, release_log)
+    prepare_mail(user, release_log) do
       render_to_string(:template => 'release_log_mailer/release_log_rollback_notification')
     end
   end
 
-  def release_log_cancel_notification(release_log)
-    prepare_mail(release_log) do
+  def release_log_cancel_notification(user, release_log)
+    prepare_mail(user, release_log) do
       render_to_string(:template => 'release_log_mailer/release_log_cancel_notification')
     end
   end
 
-  def release_log_successful_release_notification(release_log)
-    prepare_mail(release_log) do
+  def release_log_successful_release_notification(user, release_log)
+    prepare_mail(user, release_log) do
       render_to_string(:template => 'release_log_mailer/release_log_successful_release_notification')
     end
   end

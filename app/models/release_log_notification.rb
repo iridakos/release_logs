@@ -1,8 +1,6 @@
 class ReleaseLogNotification < ActiveRecord::Base
   include Redmine::I18n
 
-  unloadable
-
   TYPE_PUBLISH = 'publish'
   TYPE_SUCCESSFUL_RELEASE = 'successful_release'
   TYPE_ROLLBACK = 'rollback'

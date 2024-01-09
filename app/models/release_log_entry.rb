@@ -1,11 +1,9 @@
 class ReleaseLogEntry < ActiveRecord::Base
   include Redmine::I18n
 
-  unloadable
-
   belongs_to :issue
-  belongs_to :release_log, :inverse_of => :release_log_entries
-  belongs_to :release_log_entry_category, :inverse_of => :release_log_entries
+  belongs_to :release_log
+  belongs_to :release_log_entry_category
 
   validates :note, :presence => true
   validate :valid_configuration

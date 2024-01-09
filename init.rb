@@ -1,17 +1,16 @@
-require 'monkey/patcher'
+require_relative 'lib/monkey/patcher'
+require_relative 'app/helpers/release_logs_helper'
 
-ActionDispatch::Callbacks.to_prepare do
-  ReleaseLogs::Patcher.register_patches
-end
+Monkey::Patcher.register_patches
 
 Redmine::Plugin.register :release_logs do
   name 'Release Logs plugin'
   author 'Lazarus Lazaridis'
   description 'Redmine plugin for managing project releases'
-  version '1.0.0'
+  version '1.0.1'
   url 'https://github.com/iridakos/release_logs'
   author_url 'http://www.arubystory.com'
-  requires_redmine :version_or_higher => '2.5.2'
+  requires_redmine :version_or_higher => '5.1.1'
 
   permission :manage_release_log_configurations, :release_log_configurations => [:index, :new, :create, :edit, :update, :destroy]
   permission :manage_release_log_queues, :release_log_queues => [:index, :new, :create, :edit, :update, :destroy]
@@ -40,5 +39,3 @@ Redmine::Plugin.register :release_logs do
   end
 end
 
-require 'hooks/release_logs_hook_listener'
-require 'release_logs/searches/release_log_query'

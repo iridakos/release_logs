@@ -1,14 +1,12 @@
 class ReleaseLogPreviewsController < ReleaseLogsBaseController
   include ReleaseLogsHelper
 
-  unloadable
-
   helper :release_logs
 
-  before_filter :load_project
-  before_filter :authorize
-  before_filter :find_attachments
-  before_filter :load_release_log
+  before_action :load_project
+  before_action :authorize
+  before_action :find_attachments
+  before_action :load_release_log
 
   layout false
 

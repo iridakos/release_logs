@@ -1,10 +1,11 @@
 class ReleaseLogQueuesController < ReleaseLogsBaseController
-  unloadable
 
   include ReleaseLogsHelper
 
-  before_filter :authorize_global
-  before_filter :load_release_log_queue, :only => [:edit, :update, :destroy]
+  helper ReleaseLogsHelper
+
+  before_action :authorize_global
+  before_action :load_release_log_queue, :only => [:edit, :update, :destroy]
 
   def index
     @release_log_queues = ReleaseLogQueue.all

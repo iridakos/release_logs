@@ -1,13 +1,12 @@
 class ReleaseLogsHomeController < ReleaseLogsBaseController
   include ReleaseLogsHelper
-
-  unloadable
+  helper ReleaseLogsHelper
 
   DEFAULT_LIMIT = 10
 
   helper :release_logs
 
-  before_filter :authorize_global
+  before_action :authorize_global
 
   def index
     @release_logs = ReleaseLog.latest

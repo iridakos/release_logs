@@ -1,8 +1,6 @@
 class ReleaseLog < ActiveRecord::Base
   include Redmine::I18n
 
-  unloadable
-
   DRAFT_STATUS = 'draft'
   PUBLISHED_STATUS = 'published'
   RELEASED_STATUS = 'released'
@@ -10,15 +8,15 @@ class ReleaseLog < ActiveRecord::Base
   ROLLED_BACK_STATUS = 'rolled_back'
   PENDING_RELEASE_STATUS = 'pending_release'
 
-  has_many :release_log_entries, :dependent => :destroy, :inverse_of => :release_log, :validate => true
-  has_many :release_log_notifications, :dependent => :destroy, :inverse_of => :release_log
+  has_many :release_log_entries, :dependent => :destroy, :validate => true
+  has_many :release_log_notifications, :dependent => :destroy
 
-  belongs_to :project, :inverse_of => :release_logs
+  belongs_to :project
   belongs_to :user
   belongs_to :publisher, :class_name => 'User', :foreign_key => 'published_by'
   belongs_to :canceller, :class_name => 'User', :foreign_key => 'cancelled_by'
   belongs_to :rollbacker, :class_name => 'User', :foreign_key => 'rolled_back_by'
-  belongs_to :release_log_queue, :inverse_of => :release_logs
+  belongs_to :release_log_queue
 
   accepts_nested_attributes_for :release_log_entries, :allow_destroy => true
 
@@ -29,7 +27,7 @@ class ReleaseLog < ActiveRecord::Base
 
   ### Scopes ###
   scope :for_project, lambda { |project| where(:project_id => project.id) }
-  scope :latest, lambda { order('COALESCE(release_logs.released_at, release_logs.created_at) desc') }
+  scope :latest, lambda { order('release_logs.created_at desc') }
 
   ### Query scopes ###
   scope :with_text, lambda { |text| joins(:release_log_entries => [ :issue ]).where('release_logs.title like :text or release_logs.description like :text or issues.subject like :text or issues.description like :text or release_log_entries.note like :text', :text => text) }
@@ -82,10 +80,10 @@ class ReleaseLog < ActiveRecord::Base
   }
 
   validates :title, :presence => true, :length => { :maximum => 255 }
-  validates :released_at, :presence => { :unless => 'release_upon_publish' }
+  validates :released_at, :presence => { :unless => lambda { release_upon_publish } }
   validates :release_log_entries, :association_count => { :minimum => 1 }
-  validates :rollback_reason, :presence => { :if => 'rolled_back_at.present?' }
-  validates :cancellation_reason, :presence => { :if => 'cancelled_at.present?' }
+  validates :rollback_reason, :presence => { :if => lambda { rolled_back_at.present? } }
+  validates :cancellation_reason, :presence => { :if => lambda { cancelled_at.present? } }
   validate :unique_issues
 
   def created_on

@@ -1,8 +1,6 @@
 class ReleaseLogEntryCategory < ActiveRecord::Base
   include Redmine::I18n
 
-  unloadable
-
   has_many :release_log_entries, :inverse_of => :release_log_entry_category, :dependent => :nullify
   belongs_to :release_log_queue, :inverse_of => :release_log_entry_categories
 
